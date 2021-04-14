@@ -1,0 +1,50 @@
+@import 'fonts/fonts.scss';
+
+$background: #181b20;
+$background-grey: #2d3139;
+$primary: #22262e;
+$foreground: #cccccc;
+
+html, body, #root{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#root{
+    background-image: url("images/bg.svg");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box{
+    background-color: $primary;
+    box-shadow: 2px 3px 10px 1px #00000080;
+    padding: 15px 5px;
+    border-radius: 15px;
+    color: $foreground;
+}
+
+#login-box{
+    text-align: center;
+    font-size: 1.4rem;
+    font-family: IranYekanBold;
+    width: 300px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#search-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 4rem;
+}
