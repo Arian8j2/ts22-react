@@ -22,19 +22,36 @@ class Login extends React.Component<LoginProp, LoginState, LoginStateSetter>{
   }
 
   componentDidMount(){
-    fetch("http://ip-api.com/json/").then(res => res.json())
+    fetch("http://127.0.0.1:5000/login_api").then(res => res.json())
     .then(
       (res) => {
-        setTimeout(() => {
-          this.state.setAppState({
-            isLogin: true
-          });
-        }, 5000);
+        if(res["found"] !== true){
+          // TODO: show alert
+          return;
+        }
+
+        let ranks: Array<number> = [];
+
+        for(let rank of (res["ranks"] as string).split(","))
+          ranks.push(parseInt(rank));
+        
+        this.state.setAppState({
+          isLogin: true,
+          buffer: {
+            cldbid: res["cldbid"],
+            connTime: res["conn-time"],
+            neededPoints: res["needed-points"],
+            netUsage: res["net-usage"],
+            points: res["points"],
+            ranks: ranks,
+            refid: res["refid"]
+          }
+        })
       },
 
       // on error
       (error) => {
-
+        // TODO: add alert showing
       }
     );
 

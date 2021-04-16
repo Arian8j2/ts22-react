@@ -1,13 +1,44 @@
-import {Component} from 'react';
+import React from 'react';
+import Sidebar from './sidebar';
 
-class Content extends Component{
-  constructor(props: any){
+import Dashboard from './contents/dashboard';
+import Rank from './contents/rank';
+import Donate from './contents/donate';
+
+import { BrowserRouter, Switch, Route, Redirect }  from 'react-router-dom';
+
+
+type ContentProp = {clientInfo: ContentState};
+
+class Content extends React.Component<ContentProp, ContentState, (newState: ContentState) => void>{
+  constructor(props: ContentProp){
     super(props); 
+    this.state = props.clientInfo;
   }
 
   render(){
     return (
-      <h1 className="animate__animated animate__zoomIn">Hello</h1>
+      <div id="content" className="box animate__animated animate__zoomIn">
+        <BrowserRouter>
+          <Sidebar />
+
+          <div id="content-content">
+            <Switch>
+              <Route path="/rank" exact component={Rank} />
+              <Route path="/donate" exact component={Donate} />
+              <Route path="/dashboard" exact render={(props) => (
+                <Dashboard {...props} data={this.state} />
+              )} />
+
+              <Route path="/">
+                <Redirect to="/dashboard" />
+              </Route>
+            </Switch>
+          </div>
+          
+          
+        </BrowserRouter>
+      </div>
     );
   }
 };

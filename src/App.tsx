@@ -11,13 +11,22 @@ class App extends React.Component<any, AppState, AppStateSetter>{
   constructor(props: any){
     super(props);
     this.state = {
-      isLogin: false
+      isLogin: false,
+      buffer: {
+        cldbid: 0,
+        connTime: 0,
+        neededPoints: 0,
+        netUsage: 0,
+        points: 0,
+        ranks: [0],
+        refid: ""
+      }
     };
   }
 
   render(){
     if(this.state.isLogin)
-      return <Content />
+      return <Content clientInfo={this.state.buffer} />
     else
       return <Login appStateSetter={this.setState.bind(this)}/>
   }

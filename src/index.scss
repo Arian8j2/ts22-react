@@ -3,7 +3,60 @@
 $background: #181b20;
 $background-grey: #2d3139;
 $primary: #22262e;
-$foreground: #cccccc;
+$foreground: #c0c0c0;
+$title: #ffffff;
+$info: rgb(105,109,117);
+$radius: 30px;
+$box-shadow: 0px 7px 29px 0px #00000050;
+$button-box-shadow: 0px 0px 20px 0px;
+
+$blue: #0090D9;
+
+:root{
+    --animate-delay: .5s;
+}
+
+// remove input number arrows
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+button{
+    border: none;
+    width: 98%;
+    font-family: IranYekanLight;
+    font-size: 1rem;
+    border-radius: $radius;
+    outline: none;
+    background-color: $blue;
+    color: #ffffff;
+    padding: 5px 5px;
+    box-shadow: $button-box-shadow rgba($blue, .2);
+    transition: box-shadow .5s, opacity .2s;
+
+    &:disabled{
+        opacity: .7;
+
+        &:hover{
+            cursor:no-drop;
+        }
+    }
+
+    &:hover{
+        opacity: .8;
+        cursor: pointer;
+        transition: box-shadow .5s, opacity .2s;
+        box-shadow: $button-box-shadow rgba($blue, .5);
+    }
+}
 
 html, body, #root{
     margin: 0;
@@ -13,6 +66,7 @@ html, body, #root{
 }
 
 #root{
+    overflow-x: hidden;
     background-image: url("images/bg.svg");
     background-size: cover;
     background-position: center;
@@ -24,19 +78,42 @@ html, body, #root{
 
 .box{
     background-color: $primary;
-    box-shadow: 2px 3px 10px 1px #00000080;
+    box-shadow: $box-shadow;
     padding: 15px 5px;
-    border-radius: 15px;
+    border-radius: $radius;
     color: $foreground;
+}
+
+.inner-box{
+    background-color: $background;
+    padding: 15px 10px;
+    border-radius: $radius;
+    color: $foreground;
+    box-shadow: 0px 7px 10px 1px rgba(0, 0, 0, .2);
+    transition: box-shadow .5s, transform .5s;
+
+    .title{
+        color: $title;
+        text-align: center;
+        font-family: IranYekan;
+        margin: 0px 5px 10px 5px;
+    }
+}
+
+.inner-hover:hover{
+    transition: box-shadow .5s, transform .5s;
+    transform: translateY(-10px);
+    box-shadow: 0px 12px 10px 1px rgba(0, 0, 0, .2);
 }
 
 #login-box{
     text-align: center;
     font-size: 1.4rem;
     font-family: IranYekanBold;
-    width: 300px;
+    min-width: 300px;
+    max-width: 400px;
+    width: 17vw;
     height: 200px;
-
     display: flex;
     flex-direction: column;
 }
@@ -47,4 +124,253 @@ html, body, #root{
     align-items: center;
     height: 100%;
     font-size: 4rem;
+}
+
+#content{
+    min-width: 775px;
+    width: 40vw;
+    height: 450px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: [content] 75% [sidebar] 25% [end];
+}
+
+#sidebar{
+    grid-column: sidebar / end;
+    display: grid;
+    height: 100%;
+    grid-template-rows: [image] 45% [navbar] 55% [end];
+    border-radius: 0 $radius $radius $radius;
+    box-shadow: -10px 0px 24px 0px #00000035;
+
+    #sidebar-img{
+        object-fit:cover;
+        max-height: 100%;
+        border-top-right-radius: $radius;
+    }
+    
+    #sidebar-img-wrapper{
+        grid-row: image / navbar;
+    }
+
+    #sidebar-content{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        a{
+            font-family: IranYekan;
+            color: $foreground;
+            text-decoration: none;
+            margin: 10px auto;
+        }
+    }
+}
+
+.active{
+    transition: color .2s;
+    color: $title !important;
+}
+
+
+
+#content-content{
+    grid-column: content / sidebar;
+    grid-row: 1;
+    max-width: 100%;
+    
+    #dashboard{
+        display: grid;
+        padding: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 112.5px 279px; // 25% 62%;
+        gap: 20px;
+        height: 100%;
+
+        #rankup{
+            grid-column: 1 / 2;
+            grid-row: 1/ 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px 15px;
+            text-align: center;
+
+            button{
+                background-color: var(--rank-color);
+                
+
+                &:hover{
+                    box-shadow: $box-shadow var(--rank-color);
+                }
+            }
+                        
+            .rankup-info{
+                color: $info;
+                font-family: IranYekan;
+                font-size: .97em;
+            }
+
+            .rankup-val{
+                color: $foreground;
+                font-family: IranYekan;
+                font-size: 1em;
+                margin: 5px 5px 10px;
+                direction: ltr;
+
+                #rankup-val-parser{
+                    color: $info;
+                }
+            }
+
+            #rankup-percent{
+                color: $title;
+                text-align: center;
+                font-family: IranYekan;
+                font-size: 2.5rem;
+                margin-right: 5px;
+
+                &::after{
+                    content: '%';
+                    font-size: .5em;
+                    position: absolute;
+                    top: 45%;
+                }
+            }
+        }
+
+        #info{
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+
+        #refid{
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+
+            #refid-info{
+                text-align: center;
+                color: $info;
+                font-family: IranYekan;
+                font-size: .97em;
+            }
+
+            #refid-cldbid{
+                color: $title;
+                background-color: lighten($background, 2);
+                text-align: center;
+                margin-top: 15px;
+                padding: 7px 5px;
+                font-family: IranYekan;
+                border-radius: $radius*.5 $radius*.5 0 0;
+                width: 94%;
+            }
+
+            #refid-refid{
+                outline: none;
+                width: 94%;
+                border: none;
+                background-color: $primary;
+                text-align: center;
+                padding: 7px 5px;
+                font-family: IranYekan;
+                border-radius: 0 0 $radius*.5 $radius*.5;
+                color: $foreground;
+                font-size: 1em;
+                box-shadow: 0px 7px 10px 0px #00000030;
+                margin-bottom: 12px;
+
+                &::placeholder{
+                    color: $info;
+                }
+            }
+        }
+    }
+}
+
+.info-sec{
+    text-align: center;
+    font-family: IranYekan;
+    font-size: .97em;
+    direction: rtl;
+
+    .inf{
+        display: inline;
+        color: $info;
+
+        &::after{
+            content: ':';
+        }
+    }
+
+    .val{
+        direction: rtl;
+        display: inline;
+        color: $foreground;
+        padding-right: 10px;
+
+        .sign{
+            font-size: smaller;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #root{
+        background-image: none;
+        background-color: $primary;
+    }
+
+    #content{
+        min-width: 100%;
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 0;
+        box-shadow: none;
+    
+        #content-content{
+            min-width: 100%;
+            max-width: auto;
+            width: 100%;
+            height: 100%;
+            display: block;
+
+            #dashboard{
+                width: 100%; // 112.5px 279px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 25px 5px 25px 0px;
+
+                #rankup{
+                    width: 270.53px;
+                    height: 391.5px;
+                }
+
+                #info{
+                    width: 270.53px;
+                    height: 80.5px !important;
+                }
+
+                #refid{
+                    width: 270.53px;
+                    height: 250px !important;
+
+                    &::after{
+                        display: block;
+                        content: 'last chance :)';
+                        visibility: hidden;
+                        font-size: 40px;
+                    }
+                }
+            }
+        }
+    }
+
+    #sidebar{
+        display: none;
+    }
 }
