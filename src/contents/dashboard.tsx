@@ -122,7 +122,7 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
 
   return (
     <div id="dashboard">
-      <div id="rankup" className={`inner-box ${extraClass} animate__delay-1s`}>
+      <div id="rankup" className={`inner-box ${extraClass}`}>
         <div style={{width: "75%", height: "50%"}}>
           <CircularProgressbarWithChildren value={percentage} strokeWidth={2.8} styles={buildStyles({
             pathColor: nextRankColor,
@@ -152,7 +152,7 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
           boxShadow: `0px 0px 20px 0px ${nextRankColor}50`
         }}>ارتقا</button>
       </div>
-      <div id="info" className={`inner-box ${extraClass} animate__delay-2s`}>
+      <div id="info" className={`inner-box ${extraClass} animate__delay-1s`}>
         <div className="title">اطلاعات این ماه</div>
         <div id="info-content">
           <div className="info-sec">
@@ -165,7 +165,7 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
           </div>
         </div>
       </div>
-      <div id="refid" className={`inner-box ${extraClass} animate__delay-3s`}>
+      <div id="refid" className={`inner-box ${extraClass} animate__delay-2s`}>
         <div className="title">کد دعوت شما</div>
         <div id="refid-info">
         اگر کسی سرور رو به شما معرفی کرده می تونید کد دعوت اون رو وارد کنید تا بهش پوینت برسه همچنین می تونید کد خودتون هم به بقیه بدید

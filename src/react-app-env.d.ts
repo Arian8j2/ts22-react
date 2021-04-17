@@ -18,3 +18,9 @@ declare module '*.svg' {
   const content: string;
   export default content;
 }
+
+interface AlertInfo{
+  text: string,
+  durationSecond: number,
+  type: "success" | "danger"
+};

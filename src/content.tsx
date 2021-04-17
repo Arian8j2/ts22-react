@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Sidebar from './sidebar';
 
 import Dashboard from './contents/dashboard';
@@ -6,41 +6,38 @@ import Rank from './contents/rank';
 import Donate from './contents/donate';
 
 import { BrowserRouter, Switch, Route, Redirect }  from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 
 type ContentProp = {clientInfo: ContentState};
 
-class Content extends React.Component<ContentProp, ContentState, (newState: ContentState) => void>{
-  constructor(props: ContentProp){
-    super(props); 
-    this.state = props.clientInfo;
-  }
+function Content(props: ContentProp){
+  const [clientInfo, setClientInfo] = useState(props.clientInfo);
+  const isMobile = useMediaQuery({query: "(max-width: 600px)"});
 
-  render(){
-    return (
+  return (
+    <BrowserRouter>
       <div id="content" className="box animate__animated animate__zoomIn">
-        <BrowserRouter>
-          <Sidebar />
+        {!isMobile && <Sidebar isMobile={isMobile} />}
 
-          <div id="content-content">
-            <Switch>
-              <Route path="/rank" exact component={Rank} />
-              <Route path="/donate" exact component={Donate} />
-              <Route path="/dashboard" exact render={(props) => (
-                <Dashboard data={this.state} />
-              )} />
+        <div id="content-content">
+          <Switch>
+            <Route path="/rank" exact component={Rank} />
+            <Route path="/donate" exact component={Donate} />
+            <Route path="/dashboard" exact render={(props) => (
+              <Dashboard data={clientInfo} />
+            )} />
 
-              <Route path="/">
-                <Redirect to="/dashboard" />
-              </Route>
-            </Switch>
-          </div>
-          
-          
-        </BrowserRouter>
+            <Route path="/">
+              <Redirect to="/dashboard" />
+            </Route>
+          </Switch>
+        </div>  
       </div>
-    );
-  }
-};
+
+      {isMobile && <Sidebar isMobile={isMobile} />}
+    </BrowserRouter>
+  );
+}
 
 export default Content;
