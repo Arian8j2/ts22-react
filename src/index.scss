@@ -3,7 +3,7 @@
 $background: #181b20;
 $background-grey: #2d3139;
 $primary: #22262e;
-$foreground: #c0c0c0;
+$foreground: #b0b0b0;
 $title: #ffffff;
 $info: rgb(105,109,117);
 $radius: 30px;
@@ -33,7 +33,7 @@ button{
     border: none;
     width: 98%;
     font-family: IranYekanLight;
-    font-size: 1rem;
+    font-size: 16px;
     border-radius: $radius;
     outline: none;
     background-color: $blue;
@@ -56,6 +56,12 @@ button{
         transition: box-shadow .5s, opacity .2s;
         box-shadow: $button-box-shadow rgba($blue, .5);
     }
+}
+
+a{
+    font-family: IranYekan;
+    color: $foreground;
+    text-decoration: none;
 }
 
 html, body, #root{
@@ -159,9 +165,6 @@ html, body, #root{
         text-align: center;
 
         a{
-            font-family: IranYekan;
-            color: $foreground;
-            text-decoration: none;
             margin: 10px auto;
         }
     }
@@ -183,7 +186,7 @@ html, body, #root{
         display: grid;
         padding: 20px;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 112.5px 279px; // 25% 62%;
+        grid-template-rows: 25% 62%; //112.5px 279px
         gap: 20px;
         height: 100%;
 
@@ -315,10 +318,39 @@ html, body, #root{
     }
 }
 
+#bottom-navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    bottom: 0px;
+    background-color: $background-grey;
+    width: 100%;
+    height: 4rem;
+    direction: rtl;
+    z-index: 1;
+
+    .bottom-navbar-nav{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 10px;
+
+        .bottom-navbar-text{
+            font-family: IranYekan;
+        }
+    }
+}
+
 @media only screen and (max-width: 600px) {
+    html, body{
+        background-color: $primary;
+    }
+
     #root{
         background-image: none;
-        background-color: $primary;
+        
     }
 
     #content{
@@ -338,26 +370,35 @@ html, body, #root{
             display: block;
 
             #dashboard{
-                width: 100%; // 112.5px 279px;
-                height: 100%;
+                width: 100%;
+                height: fit-content;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 padding: 25px 5px 25px 0px;
 
+                .inner-box{
+                    margin-bottom: 15px;
+
+                    &:hover{
+                        transform: none;
+                    }
+                }
+
                 #rankup{
+                    margin-top: 15px;
                     width: 270.53px;
                     height: 391.5px;
                 }
 
                 #info{
                     width: 270.53px;
-                    height: 80.5px !important;
+                    height: 80.5px;
                 }
 
                 #refid{
                     width: 270.53px;
-                    height: 250px !important;
+                    height: 265px;
 
                     &::after{
                         display: block;

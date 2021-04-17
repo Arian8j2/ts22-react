@@ -27,7 +27,7 @@ class Content extends React.Component<ContentProp, ContentState, (newState: Cont
               <Route path="/rank" exact component={Rank} />
               <Route path="/donate" exact component={Donate} />
               <Route path="/dashboard" exact render={(props) => (
-                <Dashboard {...props} data={this.state} />
+                <Dashboard data={this.state} />
               )} />
 
               <Route path="/">

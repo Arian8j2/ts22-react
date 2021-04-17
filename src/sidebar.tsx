@@ -1,48 +1,55 @@
-import { NavLink  } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+import { NavLink } from 'react-router-dom';
 import Pic from './images/profile.svg';
 
-// import { useState } from 'react';
-// import BottomNavigation from '@material-ui/core/BottomNavigation';
-// import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-// import RestoreIcon from '@material-ui/icons/Restore';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
-// import LocationOnIcon from '@material-ui/icons/LocationOn';
-
-// const [value, setValue] = useState(0);
-// return (
-//   <BottomNavigation
-//     value={value}
-//     onChange={(event, newValue) => {
-//       setValue(newValue);
-//     }}
-//     showLabels
-//     style={{
-//       position: "absolute",
-//       bottom: 0,
-//       width: "100%",
-//       zIndex: 1
-//     }}
-//   >
-//     <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-//     <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-//     <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-//   </BottomNavigation>
-// )
+const navInfo: {url: string, name: string, icon: JSX.Element}[] = [
+  {
+    url: "/dashboard",
+    name: "داشبورد",
+    icon: (<i className="fas fa-user"></i>)
+  },
+  {
+    url: "/rank",
+    name: "رنک",
+    icon: (<i className="fas fa-user"></i>)
+  },
+  {
+    url: "/donate",
+    name: "حمایت",
+    icon: (<i className="fas fa-user"></i>)
+  }
+];
 
 function Sidebar(): JSX.Element {
-  return (
-    <div id="sidebar">
-      <div id="sidebar-img-wrapper">
-        <img id="sidebar-img" src={Pic} alt="profile" />
+  const isMobile = useMediaQuery({query: "(max-width: 600px)"});
+  
+  if(isMobile){
+    return (
+      <div id="bottom-navbar">
+        {navInfo.map((val) => {
+          return (
+            <NavLink to={val.url} exact activeClassName="active" className="bottom-navbar-nav">
+              {val.icon}
+              <span className="bottom-navbar-text">{val.name}</span>
+            </NavLink>
+          )
+        })}
       </div>
+    );
+  } else
+    return (
+      <div id="sidebar">
+        <div id="sidebar-img-wrapper">
+          <img id="sidebar-img" src={Pic} alt="profile" />
+        </div>
 
-      <div id="sidebar-content">
-        <NavLink to="/dashboard" exact activeClassName="active">داشبورد</NavLink>
-        <NavLink to="/rank" exact activeClassName="active">رنک</NavLink>
-        <NavLink to="/donate" exact activeClassName="active">حمایت</NavLink>
+        <div id="sidebar-content">
+          {navInfo.map((val) => {
+            return <NavLink to={val.url} exact activeClassName="active">{val.name}</NavLink>  
+          })}
+        </div>
       </div>
-    </div>
-  )
+    );
 }
 
 export default Sidebar;
