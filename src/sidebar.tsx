@@ -25,7 +25,7 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
       <div id="bottom-navbar">
         {navInfo.map((val) => {
           return (
-            <NavLink to={val.url} exact activeClassName="active" className="bottom-navbar-nav">
+            <NavLink key={val.url} to={val.url} exact activeClassName="active" className="bottom-navbar-nav">
               {val.icon}
               <span className="bottom-navbar-text">{val.name}</span>
             </NavLink>
@@ -42,7 +42,7 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
 
         <div id="sidebar-content">
           {navInfo.map((val) => {
-            return <NavLink to={val.url} exact activeClassName="active">{val.name}</NavLink>  
+            return <NavLink key={val.url} to={val.url} exact activeClassName="active">{val.name}</NavLink>  
           })}
         </div>
       </div>

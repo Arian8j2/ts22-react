@@ -8,7 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
 
 function App(){
-  const isLogin = useSelector((state) => (state as RootReducer).isLogin.value);
+  const isLogin = useSelector((state) => (state as RootReducer).isLogin);
 
   if(isLogin)
     return <Content />

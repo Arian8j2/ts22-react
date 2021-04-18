@@ -2,30 +2,22 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const loginStateSlice = createSlice({
   name: "login",
-  initialState: {
-    value: false
-  } as LoginState,
+  initialState: false,
   reducers: {
     setLoginState: (state, action: PayloadAction<boolean>) => {
-      state.value = action.payload;
+      return action.payload;
     }
   }
 });
 
 const clientInfoSlice = createSlice({
   name: "client info",
-  initialState: {
-
-  } as ClientInfo,
+  initialState: {} as ClientInfo,
   reducers: {
     setClientInfo: (state, action: PayloadAction<ClientInfo>) => {
-      state.cldbid = action.payload.cldbid;
-      state.connTime = action.payload.connTime;
-      state.neededPoints = action.payload.neededPoints;
-      state.netUsage = action.payload.netUsage;
-      state.points = action.payload.points;
-      state.ranks = action.payload.ranks;
-      state.refid = action.payload.refid;
+      return action.payload;
+      /* dont use state = 'action.payload'
+      https://redux-toolkit.js.org/usage/immer-reducers#resetting-and-replacing-state */
     },
 
     setClientRefid: (state, action: PayloadAction<string>) => {

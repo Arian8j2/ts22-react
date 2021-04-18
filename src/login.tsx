@@ -5,12 +5,12 @@ import { setClientInfo, setLoginState } from './redux/reducers';
 function Login(){
   /* not show anything for 700 ms and if doesnt get
      response from server yet, show loading */
-  const [isLoaded, setLoadState] = useState(false);  
+  const [isLoaded, setLoadState] = useState(true);  
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("login effect");
-    setTimeout(() => {
+    let loadTimeout = setTimeout(() => {
       setLoadState(true);
     }, 700);
 
@@ -46,7 +46,11 @@ function Login(){
 
       dispatch(setLoginState(true));
     })();
-  }, []);
+
+    return () => {
+      clearTimeout(loadTimeout); // prevent memory leak
+    }
+  }, [dispatch]);
 
   if(isLoaded){
     return (

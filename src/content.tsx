@@ -19,7 +19,9 @@ function Content(){
           <Switch>
             <Route path="/rank" exact component={Rank} />
             <Route path="/donate" exact component={Donate} />
-            <Route path="/dashboard" exact render={Dashboard} />
+            <Route path="/dashboard" exact render={() => 
+              <Dashboard /> /* dashboard hook became buggy without rendering like this */}
+            /> 
 
             <Route path="/">
               <Redirect to="/dashboard" />

@@ -20,11 +20,7 @@ interface ClientInfo{
 };
 
 interface RootReducer{
-  isLogin: LoginState,
+  isLogin: boolean,
   clientInfo: ClientInfo,
   alerts: AlertInfo[]
-};
-
-interface LoginState{
-  value: boolean
 };
