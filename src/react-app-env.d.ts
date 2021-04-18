@@ -3,10 +3,16 @@ declare module '*.svg' {
   export default content;
 }
 
-interface AlertInfo{
+interface AlertNeededInfo{
   text: string,
   durationSecond: number,
   type: "success" | "danger"
+};
+
+interface AlertInfo{
+  text: string,
+  expireTime: number,
+  type: "success" | "danger",
 };
 
 interface ClientInfo{

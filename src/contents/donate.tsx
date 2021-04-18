@@ -1,6 +1,22 @@
+import { useDispatch } from 'react-redux';
+import { addAlert } from '../redux/reducers';
+
 function Donate(): JSX.Element{
+  const dispatch = useDispatch();
+
   return (
-    <h1>Donate</h1>
+    <div>
+      <button onClick={() => {dispatch(addAlert({
+        text: "کار شما با موفقیت انجام شد",
+        durationSecond: 5,
+        type: "success"
+      }))}}>add new alert</button>
+      <button onClick={() => {dispatch(addAlert({
+        text: "ziadd",
+        durationSecond: 10,
+        type: "success"
+      }))}}>add new ziadd</button>
+    </div>
   )
 }
 

@@ -344,9 +344,37 @@ html, body, #root{
     }
 }
 
+.alert{
+    display: flex;
+    max-width: 95%;
+    min-width: 50%;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+
+    .alert-text{
+        color: #ffffff;
+        margin: 10px 15px;
+        padding: 10px 5px;
+        text-align: center;
+        font-family: IranYekan;
+        border-radius: $radius;
+    }
+
+    .alert-success{
+        background-color: #24DB58;
+        box-shadow: 0px 0px 48px 0px #24DB5880;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     html, body{
         background-color: $primary;
+    }
+
+    .alert{
+        min-width: 100%;
     }
 
     #root{

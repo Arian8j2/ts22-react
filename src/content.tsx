@@ -1,4 +1,5 @@
 import Sidebar from './sidebar';
+import Alert from './alert';
 
 import Dashboard from './contents/dashboard';
 import Rank from './contents/rank';
@@ -12,6 +13,8 @@ function Content(){
 
   return (
     <BrowserRouter>
+      <Alert />
+
       <div id="content" className="box animate__animated animate__zoomIn">
         {!isMobile && <Sidebar isMobile={isMobile} />}
 
