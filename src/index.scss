@@ -180,6 +180,33 @@ html, body, #root{
     grid-column: content / sidebar;
     grid-row: 1;
     max-width: 100%;
+
+    #donate{
+        display: grid;
+        padding: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 62% 25%; //112.5px 279px
+        gap: 20px;
+        height: 93%;
+
+        #donate-donate{
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
+        }
+
+        #donate-price{
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+            height: 100%;
+        }
+
+        #donate-donators{
+            grid-row: 1 / 3;
+            grid-column: 2 / 3;
+            height: 100%;
+        }
+
+    }
     
     #dashboard{
         display: grid;
@@ -365,6 +392,11 @@ html, body, #root{
     .alert-success{
         background-color: #24DB58;
         box-shadow: 0px 0px 48px 0px #24DB5880;
+    }
+
+    .alert-danger{
+        background-color: #E62C50;
+        box-shadow: 0px 0px 48px 0px #E62C5080;
     }
 }
 
