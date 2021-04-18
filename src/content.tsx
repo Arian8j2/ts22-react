@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Sidebar from './sidebar';
 
 import Dashboard from './contents/dashboard';
@@ -8,11 +7,7 @@ import Donate from './contents/donate';
 import { BrowserRouter, Switch, Route, Redirect }  from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
-
-type ContentProp = {clientInfo: ContentState};
-
-function Content(props: ContentProp){
-  const [clientInfo, setClientInfo] = useState(props.clientInfo);
+function Content(){
   const isMobile = useMediaQuery({query: "(max-width: 600px)"});
 
   return (
@@ -24,9 +19,7 @@ function Content(props: ContentProp){
           <Switch>
             <Route path="/rank" exact component={Rank} />
             <Route path="/donate" exact component={Donate} />
-            <Route path="/dashboard" exact render={(props) => (
-              <Dashboard data={clientInfo} />
-            )} />
+            <Route path="/dashboard" exact render={Dashboard} />
 
             <Route path="/">
               <Redirect to="/dashboard" />

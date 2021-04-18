@@ -1,83 +1,70 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setClientInfo, setLoginState } from './redux/reducers';
 
-interface LoginProp{
-  appStateSetter: AppStateSetter
-};
+function Login(){
+  /* not show anything for 700 ms and if doesnt get
+     response from server yet, show loading */
+  const [isLoaded, setLoadState] = useState(false);  
+  const dispatch = useDispatch();
 
-interface LoginState{
-  setAppState: AppStateSetter,
-  loadState: LoginLoadState
-};
-
-type LoginLoadState = "wait" | "loaded" | "remove-animation";
-type LoginStateSetter = (newState: LoginState) => void;
-
-class Login extends React.Component<LoginProp, LoginState, LoginStateSetter>{
-  constructor(props: LoginProp){
-    super(props);
-    this.state = {
-      setAppState: props.appStateSetter,
-      loadState: "wait"
-    };
-  }
-
-  componentDidMount(){
-    fetch("http://127.0.0.1:5000/login_api").then(res => res.json())
-    .then(
-      (res) => {
-        if(res["found"] !== true){
-          // TODO: show alert
-          return;
-        }
-
-        let ranks: Array<number> = [];
-
-        for(let rank of (res["ranks"] as string).split(","))
-          ranks.push(parseInt(rank));
-        
-        this.state.setAppState({
-          isLogin: true,
-          buffer: {
-            cldbid: res["cldbid"],
-            connTime: res["conn-time"],
-            neededPoints: res["needed-points"],
-            netUsage: res["net-usage"],
-            points: res["points"],
-            ranks: ranks,
-            refid: res["refid"]
-          }
-        })
-      },
-
-      // on error
-      (error) => {
-        // TODO: add alert showing
-      }
-    );
-
+  useEffect(() => {
+    console.log("login effect");
     setTimeout(() => {
-      this.setState({
-        setAppState: this.state.setAppState,
-        loadState: "loaded"
-      });
+      setLoadState(true);
     }, 700);
-  }
 
-  render(){
-    if(this.state.loadState === "wait")
-      return (<></>);
-    else
-      return (
-        <div id="login-box" className={"box " + (this.state.loadState === "loaded" ? "animate__animated animate__zoomIn": "")}>
-          <div>
-            در حال شناسایی شما
-          </div>
-          <div id="search-icon-container">
-            <i className="fas fa-search animate__animated animate__pulse animate__infinite"></i>
-          </div>
+    (async () => {
+      const response = await fetch("http://127.0.0.1:5000/login_api");
+      if(!response.ok){
+        // TODO: show alert 'connection lost'
+        return;
+      }
+
+      const data = await response.json();
+      if(data["found"] !== true){
+        console.log("not found");
+        // TODO: show alert 'not found'
+        return;
+      }
+
+      let ranks: Array<number> = [];
+
+      for(let rank of (data["ranks"] as string).split(","))
+        ranks.push(parseInt(rank));
+
+      dispatch(setClientInfo({
+        cldbid: data["cldbid"],
+        connTime: data["conn-time"],
+        neededPoints: data["needed-points"],
+        netUsage: data["net-usage"],
+        points: data["points"],
+        ranks: ranks,
+        refid: data["refid"]
+      }));
+
+
+      dispatch(setLoginState(true));
+    })();
+  }, []);
+
+  if(isLoaded){
+    return (
+      <div id="login-box" className="box animate__animated animate__zoomIn">
+        <div>
+          در حال شناسایی شما
         </div>
-      );
+        <div id="search-icon-container">
+          <i className="fas fa-search animate__animated animate__pulse animate__infinite"></i>
+        </div>
+      </div>
+    )
+  } else {
+    return (
+      <>
+      </>
+    );
   }
-};
+}
 
 export default Login;

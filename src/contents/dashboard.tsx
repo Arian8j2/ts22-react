@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar'
+
+import { useSelector } from 'react-redux';
 
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
@@ -83,27 +85,33 @@ function FormatMinute(minute: number): string {
   return buffer.join(" و ");
 }
 
-function Dashboard(props: {data: ContentState}): JSX.Element{
-  // animations overwrite transform transtition so 
-  //  we have to remove it class after animations displayed
+function Dashboard(){
+  // return (
+  //   <h1>hi there</h1>
+  // );
+  /* animations overwrite transform transtition so 
+     i have to remove it class after animations displayed */
   const [animIsLoaded, setAnimload] = useState(false);
-  
-  let data = props.data;
+  const clientInfo = useSelector((state) => (state as RootReducer).clientInfo);
+
   let extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimload(true);
+    }, 2500);
+  }, [setAnimload]);
 
-  setTimeout(() => {
-    setAnimload(true);
-  }, 2500);
-
-  let [netUsageNum, netUsageSign] = FormatKiloBytes(data.netUsage);
-  let hasRefid = data.refid !== "";
-  let percentage = data.neededPoints === 0? 100: Math.round(data.points*100/data.neededPoints);
+  
+  let [netUsageNum, netUsageSign] = FormatKiloBytes(clientInfo.netUsage);
+  let hasRefid = clientInfo.refid !== "";
+  let percentage = clientInfo.neededPoints === 0? 100: Math.round(clientInfo.points*100/clientInfo.neededPoints);
   
   let nextRank: string = "از ادمین دریافت کنید";
   let nextRankColor: string = "";
   let canUpgrade: boolean = true;
 
-  for(let rank of data.ranks){
+  for(let rank of clientInfo.ranks){
     if(rank in RankColors){
       nextRank = RankColors[rank].name;      
       nextRankColor = RankColors[rank].color;
@@ -140,7 +148,7 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
         <div style={{marginTop: "15px", flexGrow: 1}}>
           <div>
             <div className="rankup-info">پوینت های شما</div>
-            <div className="rankup-val" style={{direction: "rtl"}}>{data.points}<span id="rankup-val-parser"> / </span>{data.neededPoints === 0? "بی نهایت": data.neededPoints}</div>
+            <div className="rankup-val" style={{direction: "rtl"}}>{clientInfo.points}<span id="rankup-val-parser"> / </span>{clientInfo.neededPoints === 0? "بی نهایت": clientInfo.neededPoints}</div>
           </div>
           <div>
             <div className="rankup-info">رنک بعدی</div>
@@ -161,7 +169,7 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
           </div>
           <div className="info-sec">
             <div className="inf">تایم آنلاینی</div>
-            <div className="val">{FormatMinute(data.connTime)}</div>
+            <div className="val">{FormatMinute(clientInfo.connTime)}</div>
           </div>
         </div>
       </div>
@@ -171,13 +179,13 @@ function Dashboard(props: {data: ContentState}): JSX.Element{
         اگر کسی سرور رو به شما معرفی کرده می تونید کد دعوت اون رو وارد کنید تا بهش پوینت برسه همچنین می تونید کد خودتون هم به بقیه بدید
         </div>
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-          <div id="refid-cldbid">{data.cldbid}</div>
-          <input id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? data.refid: undefined} placeholder="کد دعوت را وارد کنید" />
+          <div id="refid-cldbid">{clientInfo.cldbid}</div>
+          <input id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? clientInfo.refid: undefined} placeholder="کد دعوت را وارد کنید" />
           <button disabled={hasRefid}>ثبت کد دعوت</button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Dashboard;
