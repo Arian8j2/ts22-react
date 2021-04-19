@@ -15,7 +15,7 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch("http://192.168.1.5:5000/login_api");
+      const response = await fetch("http://127.0.0.1:5000/login_api");
       if(!response.ok){
         // TODO: show alert 'connection lost'
         return;
