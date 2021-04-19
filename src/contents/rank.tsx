@@ -1,6 +1,13 @@
 function Rank(): JSX.Element{
   return (
-    <h1>Rank</h1>
+    <div id="rank">
+      <div id="rank-game" className="inner-box">
+        a
+      </div>
+      <div id="rank-privacy" className="inner-box">
+        b
+      </div>
+    </div>
   )
 }
 

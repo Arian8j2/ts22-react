@@ -86,9 +86,6 @@ function FormatMinute(minute: number): string {
 }
 
 function Dashboard(){
-  // return (
-  //   <h1>hi there</h1>
-  // );
   /* animations overwrite transform transtition so 
      i have to remove it class after animations displayed */
   const [animIsLoaded, setAnimload] = useState(false);
@@ -181,6 +178,7 @@ function Dashboard(){
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
           <div id="refid-cldbid">{clientInfo.cldbid}</div>
           <input id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? clientInfo.refid: undefined} placeholder="کد دعوت را وارد کنید" />
+          <div style={{flexGrow: 1, visibility: "hidden"}} >a</div>
           <button disabled={hasRefid}>ثبت کد دعوت</button>
         </div>
       </div>
