@@ -150,10 +150,12 @@ html, body, #root{
     }
 }
 
-.inner-hover:hover{
-    transition: box-shadow .5s, transform .5s;
-    transform: translateY(-10px);
-    box-shadow: 0px 12px 10px 1px rgba(0, 0, 0, .2);
+@media (hover: hover){ 
+    .inner-hover:hover{
+        transition: box-shadow .5s, transform .5s;
+        transform: translateY(-10px);
+        box-shadow: 0px 12px 10px 1px rgba(0, 0, 0, .2);
+    }
 }
 
 #login-box{
@@ -238,9 +240,6 @@ html, body, #root{
 
         #rank-game{
             grid-row: 1 / 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .rank-buttons{
@@ -450,7 +449,7 @@ html, body, #root{
     max-width: 95%;
     min-width: 50%;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 2;
 
@@ -496,18 +495,18 @@ html, body, #root{
         display: block;
         border-radius: 0;
         box-shadow: none;
-        overflow-x: hidden;
         overflow-y: visible;
+        box-sizing: border-box;
     
         #content-content{
             min-width: 100%;
-            max-width: auto;
+            max-width: 100%;
             width: 100%;
             height: 100%;
             display: block;
-            overflow-x: hidden;
             overflow-y: visible;
             margin: 10px 0px;
+            box-sizing: border-box;
 
             &::after{
                 display: block;
@@ -516,20 +515,25 @@ html, body, #root{
                 font-size: 3rem;
             }
 
+            .inner-box{
+                margin-bottom: 30px;
+            }
+
+            #rank{
+                width: 100%;
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                grid-template-columns: none;
+                align-content: center;
+            }
+
             #dashboard{
-                width: 89%;
+                width: 100%;
                 height: fit-content;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-
-                .inner-box{
-                    margin-bottom: 15px;
-
-                    &:hover{
-                        transform: none;
-                    }
-                }
 
                 #rankup{
                     margin-top: 0px;
