@@ -80,11 +80,15 @@ button{
     &red   {@include btn-outline($red);}
     &green {@include btn-outline($green);}
     &yellow{@include btn-outline($yellow);}
+    &grey  {@include btn-outline($background-grey);}
 }
 
 @mixin btn($color){
+    width: auto;
+    padding: 5px 20px 2px;
     background-color: $color;
-    box-shadow: $button-box-shadow rgba($color, .4);
+    border: 2px solid $color;
+    box-shadow: $button-box-shadow rgba($color, .6);
 
     &:hover{
         box-shadow: $button-box-shadow rgba($color, .4);
@@ -96,6 +100,7 @@ button{
     &red   {@include btn($red);}
     &green {@include btn($green);}
     &yellow{@include btn($yellow);}
+    &grey  {@include btn($background-grey);}
 }
 
 a{
@@ -228,7 +233,7 @@ html, body, #root{
         height: 100%;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 60% 1fr 1fr;
+        grid-template-rows: 70% 2fr 1fr;
         gap: 20px;
 
         #rank-game{
@@ -236,11 +241,17 @@ html, body, #root{
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
 
-            #rank-game-buttons{
-                display: flex;
-                flex-direction: row;
-                align-items: center;
+        .rank-buttons{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            button{
+                margin: 10px 5px 0 0;
             }
         }
 
