@@ -9,7 +9,6 @@ function Login(){
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("login effect");
     let loadTimeout = setTimeout(() => {
       setLoadState(true);
     }, 700);
@@ -23,7 +22,6 @@ function Login(){
 
       const data = await response.json();
       if(data["found"] !== true){
-        console.log("not found");
         // TODO: show alert 'not found'
         return;
       }

@@ -87,8 +87,10 @@ function Rank(): JSX.Element{
         return val !== rankId;
       });
     }else{
+      /* TODO: if client has 3 privacies rank, remove them
+          and add DND rank for him and alert a message */
       buffer.push(rankId);
-      
+
       let gameRankCount = 0;
       for(let rank of gameRanks){
         if(buffer.includes(rank.id))
@@ -102,7 +104,7 @@ function Rank(): JSX.Element{
           type: "danger"
         }));
         return;
-      }      
+      }
     }
 
     setNowRanks(buffer);

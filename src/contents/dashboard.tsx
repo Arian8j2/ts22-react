@@ -94,9 +94,11 @@ function Dashboard(){
   let extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
   
   useEffect(() => {
-    setTimeout(() => {
+    let animTimeout = setTimeout(() => {
       setAnimload(true);
     }, 2500);
+
+    return () => {clearTimeout(animTimeout);}
   }, [setAnimload]);
 
   

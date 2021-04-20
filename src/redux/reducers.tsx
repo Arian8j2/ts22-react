@@ -31,8 +31,13 @@ const alertsSlice = createSlice({
   initialState: [] as AlertInfo[],
   reducers: {
     addAlert: (state, action: PayloadAction<AlertNeededInfo>) => {
+      for(let rank of state){
+        if(rank.text === action.payload.text){
+          return state;
+        }
+      }
+      
       const nowTime = (new Date()).getTime();
-
       state.push({
         text: action.payload.text,
         type: action.payload.type,
@@ -43,7 +48,6 @@ const alertsSlice = createSlice({
     updateAlerts: (state) => {
       const nowTime = (new Date()).getTime();
       const newState = state.filter((val) => {
-        console.log(nowTime, val.expireTime, val.expireTime < nowTime);
         return val.expireTime > nowTime;
       });
 
