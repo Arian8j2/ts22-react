@@ -168,6 +168,7 @@ html, body, #root{
     height: 200px;
     display: flex;
     flex-direction: column;
+    color: $title;
 }
 
 #search-icon-container{
@@ -560,3 +561,47 @@ html, body, #root{
         display: none;
     }
 }
+
+/* 
+    loading is created by Alphardex on https://codepen.io/alphardex/pen/zYxXObq
+    all credits goes to him    
+*/
+
+#loading{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-circle {
+    $circle-count: 30;
+    $circle-diameter: 0.45em;
+    $ring-radius: 2em;
+    $duration: 2.5s;
+    position: absolute;
+    width: $circle-diameter;
+    height: $circle-diameter;
+    border-radius: 50%;
+    background: $title;
+    opacity: 0;
+    animation: move-to-center $duration ease-in-out infinite;
+  
+    @for $i from 1 through $circle-count {
+        &:nth-child(#{$i}) {
+            $ratio: $i / $circle-count;
+            // Make a ring of circles, and move them to center;
+            transform: rotate($ratio * 720deg) translateX($ring-radius);
+            // Then stagger the animation, and it becomes a spiral.
+            animation-delay: $ratio * $duration;
+        }
+    }
+}
+  
+@keyframes move-to-center {
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+  

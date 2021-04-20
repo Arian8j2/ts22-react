@@ -50,14 +50,18 @@ function Login(){
     }
   }, [dispatch]);
 
+  let loadingCircles = []
+  for(let i=0; i < 30; i++)
+    loadingCircles.push(<div className="loading-circle"></div>);
+
   if(isLoaded){
     return (
       <div id="login-box" className="box animate__animated animate__zoomIn">
         <div>
           در حال شناسایی شما
         </div>
-        <div id="search-icon-container">
-          <i className="fas fa-search animate__animated animate__pulse animate__infinite"></i>
+        <div id="loading">
+          {loadingCircles}
         </div>
       </div>
     )
