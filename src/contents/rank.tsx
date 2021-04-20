@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addAlert } from '../redux/reducers';
 
 const maxGameRanks: number = 3;
+const doNotDisturbId: number = 999;
 
 interface RankInfo{
   id: number,
@@ -34,7 +35,7 @@ const gameRanks: RankInfo[] = [
 const privacyRanks: RankInfo[] = [
   {id: 34, name: "Anti Poke", color: "yellow"},
   {id: 33, name: "Anti Pm", color: "yellow"},
-  {id: 999, name: "Do Not Disturb", color: "red"},
+  {id: doNotDisturbId, name: "Do Not Disturb", color: "red"},
   {id: 92, name: "Anti Move", color: "yellow"},
 ]
 
@@ -87,9 +88,44 @@ function Rank(): JSX.Element{
         return val !== rankId;
       });
     }else{
-      /* TODO: if client has 3 privacies rank, remove them
-          and add DND rank for him and alert a message */
       buffer.push(rankId);
+      
+      let privaciesRanksId: number[] = [];
+      let hasDnd = false;
+
+      for(let rank of privacyRanks){
+        if(buffer.includes(rank.id)){
+          if(rank.id === doNotDisturbId){
+            hasDnd = true;
+            continue;
+          }
+
+          privaciesRanksId.push(rank.id);
+        }
+      }
+
+      console.log(privaciesRanksId);
+
+      if(privaciesRanksId.length === 3){
+        buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
+        buffer.push(doNotDisturbId);
+
+        dispatch(addAlert({
+          text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس بجای سه تا رنک بهت این رنک طلایی رو میدم، قابل نداره`,
+          durationSecond: 15,
+          type: "info"
+        }));
+      } else if(hasDnd && privaciesRanksId.includes(rankId)) {
+        dispatch(addAlert({
+          text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس ابتدا رنک Do Not Disturb رو از خودت بگیر`,
+          durationSecond: 10,
+          type: "danger"
+        }));
+        return;
+      }
+
+      
+
 
       let gameRankCount = 0;
       for(let rank of gameRanks){

@@ -6,13 +6,13 @@ declare module '*.svg' {
 interface AlertNeededInfo{
   text: string,
   durationSecond: number,
-  type: "success" | "danger"
+  type: "success" | "danger" | "info"
 };
 
 interface AlertInfo{
   text: string,
   expireTime: number,
-  type: "success" | "danger",
+  type: "success" | "danger" | "info",
 };
 
 interface ClientInfo{
