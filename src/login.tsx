@@ -14,7 +14,7 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch("http://192.168.1.100:5000/login_api");
+      const response = await fetch("http://127.0.0.1:5000/login_api");
       if(!response.ok){
         dispatch(addAlert({
           text: "مشکل در برقراری ارتباط با سرور",

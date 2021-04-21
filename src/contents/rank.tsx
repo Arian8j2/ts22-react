@@ -104,8 +104,6 @@ function Rank(): JSX.Element{
         }
       }
 
-      console.log(privaciesRanksId);
-
       if(privaciesRanksId.length === 3){
         buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
         buffer.push(doNotDisturbId);
@@ -124,7 +122,9 @@ function Rank(): JSX.Element{
         return;
       }
 
-      
+      if(rankId === doNotDisturbId && privaciesRanksId.length !== 0){
+        buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
+      }
 
 
       let gameRankCount = 0;
