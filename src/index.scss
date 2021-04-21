@@ -49,6 +49,7 @@ button{
         opacity: .7;
 
         &:hover{
+            opacity: .5;
             cursor: no-drop;
             box-shadow: none;
         }

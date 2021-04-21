@@ -21,7 +21,7 @@ interface ClientInfo{
   neededPoints: number,
   netUsage: number,
   points: number,
-  ranks: Array[number],
+  ranks: number[],
   refid: string
 };
 

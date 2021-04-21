@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface InfosAfterRankUp{
+  neededPoints: number,
+  points: number,
+  ranks: number[]
+};
+
 const loginStateSlice = createSlice({
   name: "login",
   initialState: false,
@@ -16,12 +22,22 @@ const clientInfoSlice = createSlice({
   reducers: {
     setClientInfo: (state, action: PayloadAction<ClientInfo>) => {
       return action.payload;
-      /* dont use state = 'action.payload'
+      /* dont use 'state = action.payload'
       https://redux-toolkit.js.org/usage/immer-reducers#resetting-and-replacing-state */
     },
 
     setClientRefid: (state, action: PayloadAction<string>) => {
       state.refid = action.payload;
+    },
+
+    setClientInfoAfterRankUp: (state, action: PayloadAction<InfosAfterRankUp>) => {
+      state.points = action.payload.points;
+      state.neededPoints = action.payload.neededPoints;
+      state.ranks = action.payload.ranks;
+    },
+
+    setClientRanks: (state, action: PayloadAction<number[]>) => {
+      state.ranks = action.payload;
     }
   }
 });
@@ -62,4 +78,6 @@ export const addAlert = alertsSlice.actions.addAlert,
              updateAlerts = alertsSlice.actions.updateAlerts,
              setLoginState = loginStateSlice.actions.setLoginState,
              setClientInfo = clientInfoSlice.actions.setClientInfo,
-             setClientRefid = clientInfoSlice.actions.setClientRefid;
+             setClientRefid = clientInfoSlice.actions.setClientRefid,
+             setClientInfoAfterRankUp = clientInfoSlice.actions.setClientInfoAfterRankUp,
+             setClientRanks = clientInfoSlice.actions.setClientRanks;

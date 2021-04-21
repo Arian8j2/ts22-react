@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar'
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
@@ -89,7 +90,9 @@ function Dashboard(){
   /* animations overwrite transform transtition so 
      i have to remove it class after animations displayed */
   const [animIsLoaded, setAnimload] = useState(false);
+
   const clientInfo = useSelector((state) => (state as RootReducer).clientInfo);
+  const dispatch = useDispatch();
 
   let extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
   
@@ -104,11 +107,138 @@ function Dashboard(){
   
   let [netUsageNum, netUsageSign] = FormatKiloBytes(clientInfo.netUsage);
   let hasRefid = clientInfo.refid !== "";
+
   let percentage = clientInfo.neededPoints === 0? 100: Math.round(clientInfo.points*100/clientInfo.neededPoints);
-  
+  if(percentage > 100)
+    percentage = 100;
+  else if(percentage < 0)
+    percentage = 0;
+
   let nextRank: string = "از ادمین دریافت کنید";
   let nextRankColor: string = "";
   let canUpgrade: boolean = true;
+
+  
+  const refidInput = useRef<HTMLInputElement>(null);
+  async function onSubmitRefid(){
+    if(!refidInput.current)
+      return;
+
+    let refid: string = refidInput.current.value;
+    if(refid === ""){
+      dispatch(addAlert({
+        text: "اگه کسی بهت سرور رو معرفی کرده می تونی کد دعوت شو ازش بگیری و اینجا وارد کنی تا بهش پوینت برسه",
+        durationSecond: 10,
+        type: "info"
+      }));
+      return;
+    }
+
+    if(parseInt(refid) === clientInfo.cldbid){
+      dispatch(addAlert({
+        text: "باو این کد خودته یعنی این کد رو باید دوستات بزنن تا به تو پوینت برسه، تو هم باید کد بقیه رو بزنی نه کد خودت 😐",
+        durationSecond: 12,
+        type: "danger"
+      }));
+      return;
+    }
+
+    let response = await fetch(`http://127.0.0.1:5000/submitrefid_api/${refid}`);
+    if(!response.ok){
+      dispatch(addAlert({
+        text: "مشکل در برقراری ارتباط با سرور",
+        durationSecond: 5,
+        type: "danger"
+      }));
+      return;
+    }
+
+    let data = await response.json();
+    if(data["success"]){
+
+      let refName: string = data["name"];
+      dispatch(addAlert({
+        text: `کد دعوت با موفقیت ثبت شد، همچنین به ${refName} هم بخاطر دعوتش پوینت رسید، خوشحال نشو به تو که چیزی نمی رسه، اون دعوتت کرده 😊 `,
+        durationSecond: 15,
+        type: "success"
+      }));
+      dispatch(setClientRefid(refName));
+
+    } else {
+      const errors: Record<number, string> = {
+        1: "کد کسی که وارد می کنید باید داخل سرور باشد",
+        2: "به نظر هر دوتاتون یه نفر هستین، اگه اشتباهی شده با ادمین درمیون بزار",
+        4: `${data["name"]} دیگه نمی تونه کسیو دعوت کنه، بسشه دیگه. کد یکی دیگه رو بزن`,
+        5: `مشکلی بوجود اومده لطفا به ${data["name"]} بگید که یکبار از سایت دیدن کنه و بعد دوباره تلاش کنید`
+      };
+      let errorMsg: string = data["hint"] in errors? errors[data["hint"]] : "مشکلی بوجود اومده لطفا صفحه را رفرش کنید!"; 
+
+      dispatch(addAlert({
+        text: errorMsg,
+        durationSecond: 10,
+        type: "danger"
+      }));
+    }
+  }
+
+  async function onUpgradeRank(){
+    if(clientInfo.points < clientInfo.neededPoints){
+      dispatch(addAlert({
+        text: `برای ارتقا به ${clientInfo.neededPoints} پوینت نیاز داری که الان ${clientInfo.points} تاشو جم کردی، یه روزی بالاخره ${nextRank} میشی 😔`,
+        durationSecond: 10,
+        type: "info"
+      }));
+      return;
+    }
+
+    let response = await fetch("http://127.0.0.1:5000/upgrade_api");
+    if(!response.ok){
+      dispatch(addAlert({
+        text: "مشکل در برقراری ارتباط با سرور",
+        durationSecond: 5,
+        type: "danger"
+      }));
+      return;
+    }
+
+    let data = await response.json();
+    if(data["success"]){
+      let nowRanks: number[] = [];
+      for(let rank of (data["now-rank"] as string).split(","))
+        nowRanks.push(parseInt(rank));
+
+      dispatch(setClientInfoAfterRankUp({
+        points: data["now-point"],
+        neededPoints: data["now-needed-point"],
+        ranks: nowRanks // TODO: backend just send now power rank not all ranks that client has, so need to update backend to send all ranks
+      }));
+
+      let nowNextRank = "";
+      for(let rank of nowRanks){
+        if(rank in RankColors){
+          nowNextRank = RankColors[rank].name;
+          break;
+        }
+      }
+
+      let celebrateMsg = nowNextRank === "" ?
+        "با موفقیت ارتقا یافتی، ولی متاسفم که باید بهت بگم این آخرین رنکی بود که به صورت اتوماتیک می تونستی دریافت کنی، از اینجا به بعد باید از ادمین رنک بگیری 😔"
+      :
+        `با موفقیت ارتقا یافتی، مبارکت باشه، ایشالا ${nowNextRank} شدنت رو ببینم`;
+
+      dispatch(addAlert({
+        text: celebrateMsg,
+        durationSecond: 15,
+        type: "success"
+      }));
+    } else {
+      dispatch(addAlert({
+        text: "مشکلی بوجود اومده لطفا صفحه را رفرش کنید!",
+        durationSecond: 10,
+        type: "danger"
+      }))
+    }
+  }
 
   for(let rank of clientInfo.ranks){
     if(rank in RankColors){
@@ -155,7 +285,7 @@ function Dashboard(){
           </div>
         </div>
 
-        <button disabled={!canUpgrade} style={{
+        <button onClick={onUpgradeRank} disabled={!canUpgrade} style={{
           boxShadow: `0px 0px 20px 0px ${nextRankColor}50`
         }}>ارتقا</button>
       </div>
@@ -179,9 +309,9 @@ function Dashboard(){
         </div>
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
           <div id="refid-cldbid">{clientInfo.cldbid}</div>
-          <input id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? clientInfo.refid: undefined} placeholder="کد دعوت را وارد کنید" />
+          <input ref={refidInput} id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? clientInfo.refid: undefined} placeholder="کد دعوت را وارد کنید" />
           <div style={{flexGrow: 1, visibility: "hidden"}} >a</div>
-          <button disabled={hasRefid}>ثبت کد دعوت</button>
+          <button disabled={hasRefid} onClick={onSubmitRefid}>ثبت کد دعوت</button>
         </div>
       </div>
     </div>
