@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setClientInfo, setLoginState } from './redux/reducers';
+import { addAlert, setClientInfo, setLoginState } from './redux/reducers';
 
 function Login(){
   /* not show anything for 700 ms and if doesnt get
@@ -14,15 +14,32 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch("http://127.0.0.1:5000/login_api");
+      const response = await fetch("http://192.168.1.100:5000/login_api");
       if(!response.ok){
-        // TODO: show alert 'connection lost'
+        dispatch(addAlert({
+          text: "مشکل در برقراری ارتباط با سرور",
+          durationSecond: 5,
+          type: "danger"
+        }));
         return;
       }
 
       const data = await response.json();
       if(data["found"] !== true){
-        // TODO: show alert 'not found'
+        if(data["quest"]){
+          dispatch(addAlert({
+            text: "برای استفاده از قابلیت های سایت باید حداقل رنک Member داشته باشید",
+            durationSecond: 10,
+            type: "danger"
+          }));
+        } else {
+          dispatch(addAlert({
+            text: "متاسفانه نتونستیم شما را شناسایی کنیم، به احتمال زیاد مشکل شما استفاده از فیلترشکن جدا در مرورگر هست یا اینترنت شما با کسی که در تیم اسپیک هست فرق دارد و یا کلا در تیم اسپیک نیستید.",
+            durationSecond: 20,
+            type: "danger"
+          }));
+        }
+
         return;
       }
 
@@ -52,7 +69,7 @@ function Login(){
 
   let loadingCircles = []
   for(let i=0; i < 30; i++)
-    loadingCircles.push(<div className="loading-circle"></div>);
+    loadingCircles.push(<div key={i} className="loading-circle"></div>);
 
   if(isLoaded){
     return (
