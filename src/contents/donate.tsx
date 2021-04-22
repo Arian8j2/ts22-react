@@ -7,7 +7,7 @@ function Donate(): JSX.Element{
   useEffect(() => {
     setTimeout(() => {
       setAnimload(true);
-    }, 2500);
+    }, 1500);
   }, [setAnimload]);
 
 

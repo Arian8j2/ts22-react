@@ -63,7 +63,7 @@ function Rank(): JSX.Element{
   useEffect(() => {
     let animTimeout = setTimeout(() => {
       setAnimload(true);
-    }, 2000);
+    }, 1150);
 
     let updateRanksInterval = setInterval(() => {
       if(nowRanks !== savedRanks){

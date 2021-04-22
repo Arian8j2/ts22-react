@@ -21,6 +21,6 @@ def SubmitRefid(refid: int):
 
 @app.route("/upgrade_api", methods=["GET"])
 def RankUp():
-    return '{"success": true, "now-rank": "76,15,47,50,88", "now-point": 85, "now-needed-point": 85000}'
+    return '{"success": true, "now-rank": "76,15,47,50,88", "now-point": 85, "now-needed-point": 0}'
 
 app.run(host='0.0.0.0')

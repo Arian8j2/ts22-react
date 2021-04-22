@@ -99,7 +99,7 @@ function Dashboard(){
   useEffect(() => {
     let animTimeout = setTimeout(() => {
       setAnimload(true);
-    }, 2500);
+    }, 1500);
 
     return () => {clearTimeout(animTimeout);}
   }, [setAnimload]);
