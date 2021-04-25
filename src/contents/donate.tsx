@@ -16,6 +16,9 @@ function Donate(): JSX.Element{
     <div id="donate">
       <div id="donate-donate" className={`inner-box ${extraClass}`}>
         <div className="title">حمایت</div>
+        <div>
+          <div className="title-info">برای حمایت از ما می تونید مبلغ دلخواهی رو به ما اهدا کنید که همچنین باعث پیشرفت ما هم میشه</div>
+        </div>
       </div>
       <div id="donate-donators" className={`inner-box ${extraClass} animate__delay-1s`}>
         <div className="title">حامیان مالی</div>

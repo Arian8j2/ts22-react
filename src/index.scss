@@ -151,6 +151,13 @@ html, body, #root{
     }
 }
 
+.title-info{
+    color: $info;
+    font-family: IranYekan;
+    font-size: .97em;
+    text-align: center;
+}
+
 @media (hover: hover){ 
     .inner-hover:hover{
         transition: box-shadow .5s, transform .5s;
