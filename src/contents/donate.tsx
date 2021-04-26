@@ -16,8 +16,10 @@ function Donate(): JSX.Element{
     <div id="donate">
       <div id="donate-donate" className={`inner-box ${extraClass}`}>
         <div className="title">حمایت</div>
-        <div>
-          <div className="title-info">برای حمایت از ما می تونید مبلغ دلخواهی رو به ما اهدا کنید که همچنین باعث پیشرفت ما هم میشه</div>
+        <div className="title-info" style={{flexGrow: 1}}>برای حمایت از ما می تونید مبلغ دلخواهی رو به ما اهدا کنید که به ما در تمدید و ارتقا سرور کمک می کنه</div>
+        <div id="input-container">
+          <input placeholder="مبلغ به تومان"/>
+          <button style={{marginTop: ".25em"}}>ثبت</button>
         </div>
       </div>
       <div id="donate-donators" className={`inner-box ${extraClass} animate__delay-1s`}>
