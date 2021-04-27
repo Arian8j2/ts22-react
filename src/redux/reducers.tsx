@@ -72,7 +72,30 @@ const alertsSlice = createSlice({
   }
 });
 
-export {loginStateSlice, clientInfoSlice, alertsSlice};
+const donatorsSlice = createSlice({
+  name: "donators",
+  initialState: [
+    {name: "AriaN", amount: 3000},
+    {name: "Murphy", amount: 10000},
+    {name: "AmirAli", amount: 5000},
+    {name: "{Coboy}", amount: 5000},
+    {name: "shampare", amount: 5000},
+    {name: "mahdi", amount: 5000},
+    {name: "lamp", amount: 5000},
+    {name: "حجت السلام امیر", amount: 5000},
+    {name: "Murphy", amount: 5000},
+    {name: "Murphy", amount: 5000},
+    {name: "Murphy", amount: 5000},
+    {name: "Murphy", amount: 5000},
+  ] as DonatorInfo[],
+  reducers: {
+    setDonators: (state, action: PayloadAction<DonatorInfo[]>) => {
+      return action.payload;
+    }
+  }
+})
+
+export {loginStateSlice, clientInfoSlice, alertsSlice, donatorsSlice};
 
 export const addAlert = alertsSlice.actions.addAlert,
              updateAlerts = alertsSlice.actions.updateAlerts,
@@ -80,4 +103,5 @@ export const addAlert = alertsSlice.actions.addAlert,
              setClientInfo = clientInfoSlice.actions.setClientInfo,
              setClientRefid = clientInfoSlice.actions.setClientRefid,
              setClientInfoAfterRankUp = clientInfoSlice.actions.setClientInfoAfterRankUp,
-             setClientRanks = clientInfoSlice.actions.setClientRanks;
+             setClientRanks = clientInfoSlice.actions.setClientRanks,
+             setDonators = donatorsSlice.actions.setDonators;

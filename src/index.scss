@@ -307,6 +307,7 @@ html, body, #root{
                 button{
                     width: 100%;
                     border-radius: $radius/2;
+                    padding: 5px 5px;
                 }
 
                 input{
@@ -326,6 +327,64 @@ html, body, #root{
         #donate-donators{
             grid-row: 1 / 3;
             grid-column: 2 / 3;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 15px 10px 10px;
+
+            #donators{
+                display: flex;
+                flex-direction: column;
+                background-color: $primary;
+                height: 100%;
+                overflow-y: auto;
+                border-radius: $radius;
+                padding: 15px 15px;
+
+                &::-webkit-scrollbar{
+                    width: 3px;
+                }
+
+                &::-webkit-scrollbar-thumb{
+                    background-color: $background-grey;
+                    margin-right: 20px;
+                    border-radius: $radius;
+                }
+
+                &::-webkit-scrollbar-track-piece:start{
+                    margin-top: 30px;
+                }
+
+                &::-webkit-scrollbar-track-piece:end{
+                    margin-bottom: 30px;
+                }
+
+                .donator-layout:last-child{
+                    margin-bottom: 0px;
+                }
+            }
+
+
+            .donator-layout{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                direction: rtl;
+                margin-bottom: 16px;
+
+                div{
+                    font-family: IranYekan;
+                    font-size: 1em;
+                }
+                
+                div:nth-child(2)::after{
+                    content: 'تومان';
+                    padding-right: 5px;
+                    position: relative;
+                    bottom: .1em;
+                    color: $info;
+                }
+            }
         }
 
     }

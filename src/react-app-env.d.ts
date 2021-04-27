@@ -25,8 +25,14 @@ interface ClientInfo{
   refid: string
 };
 
+interface DonatorInfo{
+  name: string,
+  amount: number
+};
+
 interface RootReducer{
   isLogin: boolean,
   clientInfo: ClientInfo,
-  alerts: AlertInfo[]
+  alerts: AlertInfo[],
+  donators: DonatorInfo[]
 };
