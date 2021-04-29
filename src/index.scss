@@ -303,6 +303,7 @@ html, body, #root{
             #input-container{
                 background-color: $primary;
                 border-radius: $radius/2;
+                width: 95%;
 
                 button{
                     width: 100%;
@@ -311,7 +312,7 @@ html, body, #root{
                 }
 
                 input{
-                    padding: 7px 5px 2px;
+                    padding: 6px 5px 1px;
                     font-size: 1rem;
                     width: 95%;
                     box-shadow: none;
