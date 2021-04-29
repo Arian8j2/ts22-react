@@ -46,7 +46,7 @@ const alertsSlice = createSlice({
   name: "alerts",
   initialState: [] as AlertInfo[],
   reducers: {
-    addAlert: (state, action: PayloadAction<AlertNeededInfo>) => {
+    addAlert: (state, action: PayloadAction<AlertInfo>) => {
       for(let rank of state){
         if(rank.text === action.payload.text){
           return state;
@@ -57,14 +57,15 @@ const alertsSlice = createSlice({
       state.push({
         text: action.payload.text,
         type: action.payload.type,
-        expireTime: nowTime + action.payload.durationSecond*1000
+        durationSecond: nowTime + action.payload.durationSecond*1000, // noew durationSecond is actually expireTime xD
+        extraClass: action.payload.extraClass
       }); 
     },
 
     updateAlerts: (state) => {
       const nowTime = (new Date()).getTime();
       const newState = state.filter((val) => {
-        return val.expireTime > nowTime;
+        return val.durationSecond > nowTime;
       });
 
       return newState;
@@ -74,20 +75,7 @@ const alertsSlice = createSlice({
 
 const donatorsSlice = createSlice({
   name: "donators",
-  initialState: [
-    {name: "AriaN", amount: 3000},
-    {name: "Murphy", amount: 10000},
-    {name: "AmirAli", amount: 5000},
-    {name: "{Coboy}", amount: 5000},
-    {name: "shampare", amount: 5000},
-    {name: "mahdi", amount: 5000},
-    {name: "lamp", amount: 5000},
-    {name: "حجت السلام امیر", amount: 5000},
-    {name: "Murphy", amount: 5000},
-    {name: "Murphy", amount: 5000},
-    {name: "Murphy", amount: 5000},
-    {name: "Murphy", amount: 5000},
-  ] as DonatorInfo[],
+  initialState: [] as DonatorInfo[],
   reducers: {
     setDonators: (state, action: PayloadAction<DonatorInfo[]>) => {
       return action.payload;

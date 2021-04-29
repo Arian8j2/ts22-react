@@ -5,16 +5,11 @@ declare module "*.svg" {
   export default src;
 }
 
-interface AlertNeededInfo{
-  text: string,
-  durationSecond: number,
-  type: "success" | "danger" | "info"
-};
-
 interface AlertInfo{
   text: string,
-  expireTime: number,
+  durationSecond: number,
   type: "success" | "danger" | "info",
+  extraClass?: string
 };
 
 interface ClientInfo{

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addAlert, setClientInfo, setLoginState } from './redux/reducers';
+import { addAlert, setClientInfo, setLoginState, setDonators } from './redux/reducers';
 
 function Login(){
   /* not show anything for 700 ms and if doesnt get
@@ -58,7 +58,19 @@ function Login(){
         refid: data["refid"]
       }));
 
+      // TODO: donators is not implemented in backend !
+      
+      let donators: DonatorInfo[] = []
+      const maxNameLength = 15;
 
+      for(let name in (data["donators"] as Record<string, number>)){
+        donators.push({
+          name: name.length > maxNameLength ? name.substring(0, maxNameLength - 3) + "..." : name,
+          amount: data["donators"][name]
+        });
+      }
+
+      dispatch(setDonators(donators));
       dispatch(setLoginState(true));
     })();
 

@@ -134,6 +134,8 @@ function Dashboard(){
       return;
     }
 
+    /* TODO: handle input if it was not number */
+
     if(parseInt(refid) === clientInfo.cldbid){
       dispatch(addAlert({
         text: "باو این کد خودته یعنی این کد رو باید دوستات بزنن تا به تو پوینت برسه، تو هم باید کد بقیه رو بزنی نه کد خودت 😐",

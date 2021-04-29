@@ -36,10 +36,13 @@ function Alert(){
   return (
     <Flipper flipKey={alerts} className="alert" spring="gentle">
         {alerts.map((val, index) => {
+          let expireTime = val.durationSecond;
           return (
-            <Flipped key={val.expireTime} flipId={val.expireTime}>
-              <div key={val.expireTime} className={`alert-text alert-${val.type} animate__animated animate__zoom${val.expireTime - 500 < nowTime ? "Out": "In"}`}>
-                {val.text}
+            <Flipped key={expireTime} flipId={expireTime}>
+              <div key={expireTime} className={`alert-text alert-${val.type} animate__animated animate__zoom${expireTime - 500 < nowTime ? "Out": "In"}`}>
+                <div className={`${val.extraClass? val.extraClass: ""}`}>
+                  {val.text}
+                </div>
               </div>
             </Flipped>
           );
