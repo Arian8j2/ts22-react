@@ -1,16 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "spg teamspeak server",
+  "name": "spg teamspeak server | ts22.ir",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon.png",
+      "sizes": "16x16",
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "logo128.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "128x128 64x64 32x32 24x24"
     },
     {
       "src": "logo512.png",
@@ -21,5 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#181b20"
 }
