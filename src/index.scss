@@ -290,7 +290,7 @@ html, body, #root{
         height: 100%;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 60% 1fr;
+        grid-template-rows: 51% 1fr;
         gap: 20px;
 
         #donate-donate{
@@ -323,6 +323,37 @@ html, body, #root{
         #donate-price{
             grid-row: 2 / 3;
             grid-column: 1 / 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .title-info{
+                flex-grow: 1;
+            }
+
+            @keyframes rainbow-right{
+                0%{fill: #F20000}
+                25%{fill: #F200AC}
+                50%{fill: #8D00F2}
+                75%{fill: #2800F2}
+                100%{fill: #F20000}   
+            }
+            
+            @keyframes rainbow-left{
+                0%{fill: #FF3636}
+                25%{fill: #FF36C4}
+                50%{fill: #AB36FF}
+                75%{fill: #5836FF}
+                100%{fill: #FF3636}   
+            }
+
+            #heart-right{
+                animation: rainbow-right 20s ease infinite;
+            }
+
+            #heart-left{
+                animation: rainbow-left 20s ease infinite;
+            }
         }
 
         #donate-donators{
@@ -665,6 +696,28 @@ html, body, #root{
                 #refid{
                     width: 270.53px;
                     height: 280px;
+                }
+            }
+
+            #donate{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                height: fit-content;
+
+                #donate-donators{
+                    height: 390px;
+                    width: 260px;
+                }
+
+                #donate-donate{
+                    width: 260px;
+                    height: 209px;
+                }
+
+                #donate-price{
+                    width: 260px;
+                    height: 180px;
                 }
             }
         }
