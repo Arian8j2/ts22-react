@@ -1,4 +1,4 @@
-# Ts22.ir frontend
+# Ts22.ir front end
 SPG Teamspeak server website
 
 ## How to run
