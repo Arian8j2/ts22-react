@@ -5,6 +5,8 @@ import { addAlert } from '../redux/reducers';
 import { ReactComponent as HeartPic } from '../images/heart.svg';
 import { ChangeEvent } from 'react';
 
+import { API_URL } from '../constants';
+
 function Donate(): JSX.Element{
   const donators = useSelector((state: RootReducer) => state.donators);
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ function Donate(): JSX.Element{
     /* TODO: backend handle url for donation is 'donate' but i used 'submitdonation'
       because 'donate' has already used in web sections
     */
-    const response = await fetch(`http://127.0.0.1:5000/submitdonation/${donationAmount}`);
+    const response = await fetch(`http://${API_URL}/submitdonation/${donationAmount}`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAlert, setClientInfo, setLoginState, setDonators } from './redux/reducers';
+import { API_URL } from './constants';
 
 function Login(){
   /* not show anything for 700 ms and if doesnt get
@@ -14,7 +15,7 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch("http://127.0.0.1:5000/login_api");
+      const response = await fetch(`http://${API_URL}/login_api`);
       if(!response.ok){
         dispatch(addAlert({
           text: "مشکل در برقراری ارتباط با سرور",

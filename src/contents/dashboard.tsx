@@ -4,6 +4,8 @@ import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-pro
 import { useSelector, useDispatch } from 'react-redux';
 import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 
+import { API_URL } from '../constants';
+
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
     name: "Elite", 
@@ -145,7 +147,7 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch(`http://127.0.0.1:5000/submitrefid_api/${refid}`);
+    let response = await fetch(`http://${API_URL}/submitrefid_api/${refid}`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",
@@ -193,7 +195,7 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch("http://127.0.0.1:5000/upgrade_api");
+    let response = await fetch(`http://${API_URL}/upgrade_api`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",

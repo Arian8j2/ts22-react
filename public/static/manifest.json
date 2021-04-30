@@ -3,7 +3,7 @@
   "name": "spg teamspeak server | ts22.ir",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "static/favicon.png",
       "sizes": "16x16",
       "type": "image/png"
     },
