@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar'
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -92,6 +92,7 @@ function Dashboard(){
   /* animations overwrite transform transtition so 
      i have to remove it class after animations displayed */
   const [animIsLoaded, setAnimload] = useState(false);
+  const [refid, setRefid] = useState("");
 
   const clientInfo = useSelector((state) => (state as RootReducer).clientInfo);
   const dispatch = useDispatch();
@@ -121,12 +122,7 @@ function Dashboard(){
   let canUpgrade: boolean = true;
 
   
-  const refidInput = useRef<HTMLInputElement>(null);
   async function onSubmitRefid(){
-    if(!refidInput.current)
-      return;
-
-    let refid: string = refidInput.current.value;
     if(refid === ""){
       dispatch(addAlert({
         text: "اگه کسی بهت سرور رو معرفی کرده می تونی کد دعوت شو ازش بگیری و اینجا وارد کنی تا بهش پوینت برسه",
@@ -135,8 +131,6 @@ function Dashboard(){
       }));
       return;
     }
-
-    /* TODO: handle input if it was not number */
 
     if(parseInt(refid) === clientInfo.cldbid){
       dispatch(addAlert({
@@ -214,7 +208,7 @@ function Dashboard(){
       dispatch(setClientInfoAfterRankUp({
         points: data["now-point"],
         neededPoints: data["now-needed-point"],
-        ranks: nowRanks // TODO: backend just send now power rank not all ranks that client has, so need to update backend to send all ranks
+        ranks: nowRanks
       }));
 
       let nowNextRank = "";
@@ -313,7 +307,11 @@ function Dashboard(){
         </div>
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
           <div id="refid-cldbid">{clientInfo.cldbid}</div>
-          <input ref={refidInput} id="refid-refid" type={hasRefid? 'text': 'number'} readOnly={hasRefid} value={hasRefid? clientInfo.refid: undefined} placeholder="کد دعوت را وارد کنید" />
+          <input onInput={(ev: ChangeEvent<HTMLInputElement>) => {
+            let newRefid = (ev.target.validity.valid) ? ev.target.value: refid;
+            setRefid(newRefid);
+          }}
+            pattern="[0-9]*" id="refid-refid" type="text" readOnly={hasRefid} value={hasRefid? clientInfo.refid: refid} placeholder="کد دعوت را وارد کنید" />
           <div style={{flexGrow: 1, visibility: "hidden"}} >a</div>
           <button disabled={hasRefid} onClick={onSubmitRefid}>ثبت کد دعوت</button>
         </div>

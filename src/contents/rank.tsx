@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAlert } from '../redux/reducers';
+import { API_URL } from '../constants';
+import { addAlert, setClientRanks } from '../redux/reducers';
 
 const maxGameRanks: number = 3;
-const doNotDisturbId: number = 999;
+const doNotDisturbId: number = 118;
 
 interface RankInfo{
   id: number,
@@ -68,17 +69,37 @@ function Rank(): JSX.Element{
     let updateRanksInterval = setInterval(() => {
       if(nowRanks !== savedRanks){
         (async () => {
-          // TODO: send update rank request and then dispatch new ranks
+          const response = await fetch(`http://${API_URL}/giveranks_api/${nowRanks}`);
+          if(!response.ok){
+            dispatch(addAlert({
+              text: "مشکل در برقراری ارتباط با سرور",
+              durationSecond: 5,
+              type: "danger"
+            }));
+            return;
+          }
+
+          const data = await response.json();
+          if(!data["success"]){
+            dispatch(addAlert({
+              text: "مشکل در برقراری ارتباط با سرور",
+              durationSecond: 5,
+              type: "danger"
+            }));
+            return;
+          } else {
+            dispatch(setClientRanks(nowRanks));
+          }
         })();
       }
-    }, 2000);
+    }, 250);
 
 
     return () => {
       clearTimeout(animTimeout);
       clearInterval(updateRanksInterval);
     }
-  }, [setAnimload, nowRanks, savedRanks]);
+  }, [setAnimload, nowRanks, savedRanks, dispatch]);
 
   function onRankClick(rankId: number){
     let buffer: number[] = nowRanks.slice();

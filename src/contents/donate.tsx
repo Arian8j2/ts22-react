@@ -42,9 +42,6 @@ function Donate(): JSX.Element{
       return;
     }
 
-    /* TODO: backend handle url for donation is 'donate' but i used 'submitdonation'
-      because 'donate' has already used in web sections
-    */
     const response = await fetch(`http://${API_URL}/submitdonation/${donationAmount}`);
     if(!response.ok){
       dispatch(addAlert({
