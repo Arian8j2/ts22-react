@@ -92,7 +92,7 @@ function Rank(): JSX.Element{
           }
         })();
       }
-    }, 2000);
+    }, 1000);
 
     // TODO: fix spam 
 
