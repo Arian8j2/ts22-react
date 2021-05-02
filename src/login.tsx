@@ -64,10 +64,11 @@ function Login(){
       let donators: DonatorInfo[] = []
       const maxNameLength = 15;
 
-      for(let name in (data["donators"] as Record<string, number>)){
+      for(let donator of (data["donators"] as Record<string, number>[])){
+        let name: string = Object.keys(donator)[0];
         donators.push({
           name: name.length > maxNameLength ? name.substring(0, maxNameLength - 3) + "..." : name,
-          amount: data["donators"][name]
+          amount: donator[name]
         });
       }
 

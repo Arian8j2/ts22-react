@@ -13,7 +13,7 @@ CORS(app)
 @app.route("/login_api", methods=["GET"])
 def Login():
     # sleep(randint(2, 4))
-    return '{"found": true, "ranks": "75,15,47,50,88", "cldbid": 19, "points": 4800, "refid": "", "net-usage": 34823, "conn-time": 4174, "needed-points": 4500, "donators": {"amir_ali_bahadori_rad": 3000, "AriaN": 5000, "حجت الاسلام خرابی": 100000}}'
+    return '{"found": true, "ranks": "75,15,47,50,88", "cldbid": 19, "points": 4800, "refid": "", "net-usage": 34823, "conn-time": 4174, "needed-points": 4500, "donators": [{"AriaN": 5000}, {"Murphy": 12000}]}'
 
 @app.route("/submitrefid_api/<int:refid>", methods=["GET"])
 def SubmitRefid(refid: int):
