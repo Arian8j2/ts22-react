@@ -141,7 +141,7 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch(`http://${API_URL}/submitrefid_api/${refid}`);
+    let response = await fetch(`${API_URL}/submitrefid_api/${refid}`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",
@@ -189,7 +189,7 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch(`http://${API_URL}/upgrade_api`);
+    let response = await fetch(`${API_URL}/upgrade_api`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",

@@ -42,7 +42,7 @@ function Donate(): JSX.Element{
       return;
     }
 
-    const response = await fetch(`http://${API_URL}/submitdonation/${donationAmount}`);
+    const response = await fetch(`${API_URL}/submitdonation/${donationAmount}`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",

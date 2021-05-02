@@ -69,7 +69,7 @@ function Rank(): JSX.Element{
     let updateRanksInterval = setInterval(() => {
       if(nowRanks !== savedRanks){
         (async () => {
-          const response = await fetch(`http://${API_URL}/giveranks_api/${nowRanks}`);
+          const response = await fetch(`${API_URL}/giveranks_api/${nowRanks}`);
           if(!response.ok){
             dispatch(addAlert({
               text: "مشکل در برقراری ارتباط با سرور",
@@ -92,8 +92,9 @@ function Rank(): JSX.Element{
           }
         })();
       }
-    }, 250);
+    }, 2000);
 
+    // TODO: fix spam 
 
     return () => {
       clearTimeout(animTimeout);
