@@ -1,2 +1,1 @@
-*.tsx linguist-language=TypeScript
-.yarn/* linguist-vendored 
+.yarn/* linguist-vendored
