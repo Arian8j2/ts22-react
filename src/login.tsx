@@ -59,8 +59,6 @@ function Login(){
         refid: data["refid"]
       }));
 
-      // TODO: donators is not implemented in backend !
-      
       let donators: DonatorInfo[] = []
       const maxNameLength = 15;
 
