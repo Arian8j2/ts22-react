@@ -770,4 +770,20 @@ html, body, #root{
         transform: translate(0, 0);
     }
 }
-  
+
+.tippy-box{
+    font-family: IranYekan;
+    text-align: center;
+    direction: rtl;
+    font-size: 15px;
+    line-height: 25px;
+    box-shadow: 0px 0px 20px 1px #151515;
+    padding: 10px 15px;
+    color: $foreground;
+    background-color: $background-grey;
+    border-radius: $radius;
+}
+
+.tippy-box[data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: $background-grey;
+}

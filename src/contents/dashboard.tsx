@@ -6,6 +6,10 @@ import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/red
 
 import { API_URL } from '../constants';
 
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/scale.css';
+
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
     name: "Elite", 
@@ -291,6 +295,11 @@ function Dashboard(){
         <div className="title">اطلاعات این ماه</div>
         <div id="info-content">
           <div className="info-sec">
+            <Tippy animation="scale" content="در حال حاضر این عدد تنها مقدار اینترنتی هست که از طریق آپلود و دانلود کردن فایل ها استفاده شده و اینترنت مصرف شده توسط حرف زدن، چت کردن و غیره در این عدد حساب نمی شود.">
+              <div style={{display: "inline", margin: "0px 5px", position: "relative", top: "2px"}}>
+                <i className="fas fa-info-circle"></i>
+              </div>
+            </Tippy>
             <div className="inf">اینترنت مصرف شده</div>
             <div className="val"><span style={{marginRight: "5px"}}>{netUsageNum}</span><span className="sign">{netUsageSign}</span></div>
           </div>
