@@ -5,10 +5,11 @@ declare module "*.svg" {
   export default src;
 }
 
+type AlertType = "success" | "danger" | "info";
 interface AlertInfo{
   text: string,
   durationSecond: number,
-  type: "success" | "danger" | "info",
+  type: AlertType,
   extraClass?: string
 };
 

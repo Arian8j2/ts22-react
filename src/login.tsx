@@ -26,6 +26,20 @@ function Login(){
       }
 
       const data = await response.json();
+      const serverAlertTypes: AlertType[] = [
+        "success",
+        "danger",
+        "info"
+      ];
+      
+      if(data["alert"] !== null){
+        dispatch(addAlert({
+          text: data["alert"]["text"],
+          durationSecond: 30,
+          type: serverAlertTypes[data["alert"]["type"]]
+        }));
+      }
+
       if(data["found"] !== true){
         if(data["quest"]){
           dispatch(addAlert({
