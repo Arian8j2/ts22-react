@@ -6,7 +6,7 @@ import { API_URL } from './constants';
 function Login(){
   /* not show anything for 700 ms and if doesnt get
      response from server yet, show loading */
-  const [isLoaded, setLoadState] = useState(true);  
+  const [isLoaded, setLoadState] = useState(false);  
   const dispatch = useDispatch();
 
   useEffect(() => {
