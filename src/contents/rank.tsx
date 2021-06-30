@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../constants';
 import { addAlert, setClientRanks } from '../redux/reducers';
@@ -56,51 +56,67 @@ const sections: {htmlId: string, title: string, ranks: RankInfo[]}[] = [
 function Rank(): JSX.Element{
   const savedRanks: number[] = useSelector((state: RootReducer) => state.clientInfo.ranks);
   const dispatch = useDispatch();
-
+  const remainedRanks = useRef<null | number[]>(null);
   const [nowRanks, setNowRanks] = useState(savedRanks);
   const [animIsLoaded, setAnimload] = useState(false);
   const extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
+
+  const updateRanks = useCallback((async (currentRanks: number[]): Promise<boolean> => {
+    remainedRanks.current = null;
+
+    const response = await fetch(`${API_URL}/giveranks_api/${currentRanks}`);
+    if(!response.ok){
+      dispatch(addAlert({
+        text: "مشکل در برقراری ارتباط با سرور",
+        durationSecond: 5,
+        type: "danger"
+      }));
+      return true;
+    }
+
+    const data = await response.json();
+    if(!data["success"]){
+      dispatch(addAlert({
+        text: "مشکل در برقراری ارتباط با سرور",
+        durationSecond: 5,
+        type: "danger"
+      }));
+      return true;
+    } else {
+      dispatch(setClientRanks(currentRanks));
+      return false;
+    }
+  }), [dispatch]);
+
+  useEffect(() => {
+    let updateRanksInterval = setInterval(() => {
+      if(nowRanks === savedRanks)
+        return;
+
+      updateRanks(nowRanks).then((revertNowRanks) => {
+        if(revertNowRanks)
+          setNowRanks(savedRanks);
+      });
+      
+    }, 1000);
+
+    return () => {
+      clearInterval(updateRanksInterval);
+    }
+  }, [nowRanks, savedRanks, dispatch, updateRanks]);
 
   useEffect(() => {
     let animTimeout = setTimeout(() => {
       setAnimload(true);
     }, 1150);
 
-    let updateRanksInterval = setInterval(() => {
-      if(nowRanks !== savedRanks){
-        (async () => {
-          const response = await fetch(`${API_URL}/giveranks_api/${nowRanks}`);
-          if(!response.ok){
-            dispatch(addAlert({
-              text: "مشکل در برقراری ارتباط با سرور",
-              durationSecond: 5,
-              type: "danger"
-            }));
-            return;
-          }
-
-          const data = await response.json();
-          if(!data["success"]){
-            dispatch(addAlert({
-              text: "مشکل در برقراری ارتباط با سرور",
-              durationSecond: 5,
-              type: "danger"
-            }));
-            return;
-          } else {
-            dispatch(setClientRanks(nowRanks));
-          }
-        })();
-      }
-    }, 1000);
-
-    // TODO: fix spam 
-
     return () => {
+      if(remainedRanks.current)
+        updateRanks(remainedRanks.current);
+
       clearTimeout(animTimeout);
-      clearInterval(updateRanksInterval);
     }
-  }, [setAnimload, nowRanks, savedRanks, dispatch]);
+  }, [updateRanks]);
 
   function onRankClick(rankId: number){
     let buffer: number[] = nowRanks.slice();
@@ -166,6 +182,7 @@ function Rank(): JSX.Element{
     }
 
     setNowRanks(buffer);
+    remainedRanks.current = buffer;    
   }
 
   return (
