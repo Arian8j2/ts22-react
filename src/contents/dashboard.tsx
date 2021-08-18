@@ -50,9 +50,9 @@ const NotUpgradableRanksColor: Record<number, string> = {
   15: "#800F05", // owner
 };
 
-function FormatKiloBytes(kilobytes: number, decimals: number = 2): [number, string] {
+function FormatKiloBytes(kilobytes: number, decimals: number = 2): [number | string, string] {
   let bytes = kilobytes * 1024;
-  if (bytes === 0) return [0, ""];
+  if (bytes === 0) return ["صفر", ""];
 
   const k = 1024;
   let dm = decimals < 0 ? 0 : decimals;
@@ -68,6 +68,9 @@ function FormatKiloBytes(kilobytes: number, decimals: number = 2): [number, stri
 }
 
 function FormatMinute(minute: number): string {
+  if(minute === 0)
+    return "صفر"
+
   let buffer = [];
   
   let days = Math.floor(minute / 60 / 24);
@@ -292,7 +295,7 @@ function Dashboard(){
         <div id="info-content">
           <div className="info-sec">
             <div className="inf">اینترنت مصرف شده</div>
-            <div className="val"><span style={{marginRight: "5px"}}>{netUsageNum}</span><span className="sign">{netUsageSign}</span></div>
+            <div className="val"><span style={{marginRight: typeof(netUsageNum) == "string" ? "0px": "5px"}}>{netUsageNum}</span><span className="sign">{netUsageSign}</span></div>
           </div>
           <div className="info-sec">
             <div className="inf">تایم آنلاینی</div>
