@@ -307,8 +307,8 @@ html, body, #root{
 
                 button{
                     width: 100%;
-                    border-radius: $radius/2;
-                    padding: 5px 5px;
+                    border-radius: 3px 3px $radius/2 $radius/2;
+                    padding: .2em;
                 }
 
                 input{
