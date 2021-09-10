@@ -78,8 +78,15 @@ function Login(){
 
       for(let donator of (data["donators"] as Record<string, number>[])){
         let name: string = Object.keys(donator)[0];
+
+        /*
+          some utf characters counted twice 
+          https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length#unicode
+        */
+        let nameArray: string[] = [... name]; 
+
         donators.push({
-          name: name.length > maxNameLength ? name.substring(0, maxNameLength - 3) + "..." : name,
+          name: nameArray.length > maxNameLength ? nameArray.slice(0, maxNameLength - 3).join("") + "..." : name,
           amount: donator[name]
         });
       }
