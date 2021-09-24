@@ -1,21 +1,24 @@
 import { NavLink } from 'react-router-dom';
 import Pic from './images/profile.svg';
 
-const navInfo: {url: string, name: string, icon: JSX.Element}[] = [
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faGamepad, faHeart, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
+const navInfo: {url: string, name: string, icon: IconDefinition}[] = [
   {
     url: "/dashboard",
     name: "داشبورد",
-    icon: (<i className="fas fa-user"></i>)
+    icon: faUser
   },
   {
     url: "/rank",
     name: "رنک",
-    icon: (<i className="fas fa-gamepad"></i>)
+    icon: faGamepad
   },
   {
     url: "/donate",
     name: "حمایت",
-    icon: (<i className="fas fa-heart"></i>)
+    icon: faHeart
   }
 ];
 
@@ -26,7 +29,7 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
         {navInfo.map((val) => {
           return (
             <NavLink key={val.url} to={val.url} exact activeClassName="active" className="bottom-navbar-nav">
-              {val.icon}
+              <FontAwesomeIcon icon={val.icon} />
               <span className="bottom-navbar-text">{val.name}</span>
             </NavLink>
           )
