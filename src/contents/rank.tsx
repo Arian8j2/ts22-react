@@ -108,7 +108,7 @@ function Rank(): JSX.Element{
   useEffect(() => {
     let animTimeout = setTimeout(() => {
       setAnimload(true);
-    }, 1150);
+    }, 1300);
 
     return () => {
       if(remainedRanks.current)
