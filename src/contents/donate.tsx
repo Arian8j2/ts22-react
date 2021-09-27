@@ -7,6 +7,9 @@ import { ChangeEvent } from 'react';
 
 import { API_URL } from '../constants';
 
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
+
 function Donate(): JSX.Element{
   const donators = useSelector((state: RootReducer) => state.donators);
   const dispatch = useDispatch();
@@ -95,14 +98,14 @@ function Donate(): JSX.Element{
       </div>
       <div id="donate-donators" className={`inner-box ${extraClass} animate__delay-1s`}>
         <div className="title">حامیان مالی</div>
-        <div id="donators">
+        <SimpleBar id="donators" autoHide={false}>
           {donators.map((val, index) => 
             <div key={index} className="donator-layout">
               <div>{val.name}</div>
               <div>{val.amount}</div>
             </div>
           )}
-        </div>
+        </SimpleBar>
       </div>
       <div id="donate-price" className={`inner-box ${extraClass} animate__delay-2s`}>
         <div className="title">جوایز</div>

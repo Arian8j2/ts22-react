@@ -248,7 +248,12 @@ html, body, #root{
     color: $title !important;
 }
 
-
+.simplebar-scrollbar::before{
+    background-color: $background-grey;
+    margin: 25px 0px 10px 5px;
+    width: 3px;
+    border-radius: $radius;
+} 
 
 #content-content{
     grid-column: content / sidebar;
@@ -372,30 +377,7 @@ html, body, #root{
                 overflow-y: auto;
                 border-radius: $radius;
                 padding: 15px 15px;
-
-                &::-webkit-scrollbar{
-                    width: 3px;
-                }
-
-                &::-webkit-scrollbar-thumb{
-                    background-color: $background-grey;
-                    margin-right: 20px;
-                    border-radius: $radius;
-                }
-
-                &::-webkit-scrollbar-track-piece:start{
-                    margin-top: 30px;
-                }
-
-                &::-webkit-scrollbar-track-piece:end{
-                    margin-bottom: 30px;
-                }
-
-                .donator-layout:last-child{
-                    margin-bottom: 0px;
-                }
             }
-
 
             .donator-layout{
                 display: flex;
