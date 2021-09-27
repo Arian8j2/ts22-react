@@ -83,7 +83,7 @@ function Login(){
           some utf characters counted twice 
           https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length#unicode
         */
-        let nameArray: string[] = [... name]; 
+        let nameArray: string[] = [...name]; 
 
         donators.push({
           name: nameArray.length > maxNameLength ? nameArray.slice(0, maxNameLength - 3).join("") + "..." : name,
