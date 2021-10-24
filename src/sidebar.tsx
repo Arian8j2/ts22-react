@@ -1,24 +1,40 @@
 import { NavLink } from 'react-router-dom';
 import Pic from './images/profile.svg';
 
+import Dashboard from './contents/dashboard';
+import Rank from './contents/rank';
+import Donate from './contents/donate';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faGamepad, faHeart, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
-const navInfo: {url: string, name: string, icon: IconDefinition}[] = [
+interface NavInfo {
+  url: string,
+  name: string,
+  icon: IconDefinition,
+  component: () => JSX.Element,
+  isDefault?: boolean
+}
+
+const navInfo: NavInfo[] = [
   {
     url: "/dashboard",
     name: "داشبورد",
-    icon: faUser
+    icon: faUser,
+    component: Dashboard,
+    isDefault: true
   },
   {
     url: "/rank",
     name: "رنک",
-    icon: faGamepad
+    icon: faGamepad,
+    component: Rank
   },
   {
     url: "/donate",
     name: "حمایت",
-    icon: faHeart
+    icon: faHeart,
+    component: Donate
   }
 ];
 
@@ -53,3 +69,4 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
 }
 
 export default Sidebar;
+export { navInfo };
