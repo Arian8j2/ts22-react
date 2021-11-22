@@ -15,7 +15,7 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch(`${API_URL}/login_api`);
+      const response = await fetch(`${API_URL}/login`);
       if(!response.ok){
         dispatch(addAlert({
           text: "مشکل در برقراری ارتباط با سرور",

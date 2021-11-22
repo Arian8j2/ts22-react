@@ -1,1 +1,2 @@
-export const API_URL: string = "https://web.ts22.ir";
+export const API_URL: string = process.env.REACT_APP_API_URL === undefined ? 
+                                  "http://localhost:5000": process.env.REACT_APP_API_URL;

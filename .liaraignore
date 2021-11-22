@@ -1,6 +1,0 @@
-# this file is related to dedicated host, remove this file
-# cause you dont need it on diffrent host
-
-src/
-public/
-.yarn/

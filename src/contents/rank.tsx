@@ -64,7 +64,7 @@ function Rank(): JSX.Element{
   const updateRanks = useCallback((async (currentRanks: number[]): Promise<boolean> => {
     remainedRanks.current = null;
 
-    const response = await fetch(`${API_URL}/giveranks_api/${currentRanks}`);
+    const response = await fetch(`${API_URL}/give_ranks/${currentRanks}`);
     if(!response.ok){
       dispatch(addAlert({
         text: "مشکل در برقراری ارتباط با سرور",
