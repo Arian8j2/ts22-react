@@ -114,7 +114,7 @@ function Dashboard(){
   let [netUsageNum, netUsageSign] = FormatKiloBytes(clientInfo.netUsage);
   let hasRefid = clientInfo.refid !== "";
 
-  let percentage = clientInfo.neededPoints === 0? 100: Math.round(clientInfo.points*100/clientInfo.neededPoints);
+  let percentage = clientInfo.neededPoints === 0? 100: Math.floor(clientInfo.points*100/clientInfo.neededPoints);
   if(percentage > 100)
     percentage = 100;
   else if(percentage < 0)
