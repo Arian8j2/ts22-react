@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../constants';
 import { addAlert, setClientRanks } from '../redux/reducers';
+import { fetchWrapper } from '../tools'
 
 const maxGameRanks: number = 3;
 const doNotDisturbId: number = 118;
@@ -64,28 +65,22 @@ function Rank(): JSX.Element{
   const updateRanks = useCallback((async (currentRanks: number[]): Promise<boolean> => {
     remainedRanks.current = null;
 
-    const response = await fetch(`${API_URL}/give_ranks/${currentRanks}`);
-    if(!response.ok){
+    try {
+      await fetchWrapper(`${API_URL}/give_ranks`, {
+        method: "POST",
+        body: `ranks=${currentRanks.join(",")}`
+      });
+    } catch(err: any) {
       dispatch(addAlert({
-        text: "مشکل در برقراری ارتباط با سرور",
-        durationSecond: 5,
-        type: "danger"
+        text: err,
+        type: "danger",
+        durationSecond: 15
       }));
       return true;
     }
-
-    const data = await response.json();
-    if(!data["success"]){
-      dispatch(addAlert({
-        text: "مشکل در برقراری ارتباط با سرور",
-        durationSecond: 5,
-        type: "danger"
-      }));
-      return true;
-    } else {
-      dispatch(setClientRanks(currentRanks));
-      return false;
-    }
+    
+    dispatch(setClientRanks(currentRanks));
+    return false;
   }), [dispatch]);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 
 import { API_URL } from '../constants';
+import { fetchWrapper } from '../tools';
 
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
@@ -144,12 +145,16 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch(`${API_URL}/submit_refid/${refid}`);
-    if(!response.ok){
+    try {
+      var response = await fetchWrapper(`${API_URL}/submit_refid`, {
+        method: "POST",
+        body: `refid=${refid}`
+      });
+    } catch(err: any) {
       dispatch(addAlert({
-        text: "مشکل در برقراری ارتباط با سرور",
-        durationSecond: 5,
-        type: "danger"
+        text: err,
+        type: "danger",
+        durationSecond: 15
       }));
       return;
     }
@@ -169,8 +174,7 @@ function Dashboard(){
       const errors: Record<number, string> = {
         1: "کد کسی که وارد می کنید باید داخل سرور باشد",
         2: "به نظر هر دوتاتون یه نفر هستین، اگه اشتباهی شده با ادمین درمیون بزار",
-        4: `${data["name"]} دیگه نمی تونه کسیو دعوت کنه، بسشه دیگه. کد یکی دیگه رو بزن`,
-        5: `مشکلی بوجود اومده لطفا به ${data["name"]} بگید که یکبار از سایت دیدن کنه و بعد دوباره تلاش کنید`
+        4: `${data["name"]} دیگه نمی تونه کسیو دعوت کنه، بسشه دیگه. کد یکی دیگه رو بزن`
       };
       let errorMsg: string = data["hint"] in errors? errors[data["hint"]] : "مشکلی بوجود اومده لطفا صفحه را رفرش کنید!"; 
 
@@ -192,21 +196,23 @@ function Dashboard(){
       return;
     }
 
-    let response = await fetch(`${API_URL}/upgrade`);
-    if(!response.ok){
+    try {
+      var response = await fetchWrapper(`${API_URL}/upgrade`, {
+        method: "POST",
+        credentials: "include"
+      });
+    } catch(err: any) {
       dispatch(addAlert({
-        text: "مشکل در برقراری ارتباط با سرور",
-        durationSecond: 5,
-        type: "danger"
+        text: err,
+        type: "danger",
+        durationSecond: 15
       }));
       return;
     }
 
     let data = await response.json();
     if(data["success"]){
-      let nowRanks: number[] = [];
-      for(let rank of (data["now-rank"] as string).split(","))
-        nowRanks.push(parseInt(rank));
+      let nowRanks: number[] = data["now-ranks"];
 
       dispatch(setClientInfoAfterRankUp({
         points: data["now-point"],

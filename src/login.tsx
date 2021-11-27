@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAlert, setClientInfo, setLoginState, setDonators } from './redux/reducers';
 import { API_URL } from './constants';
+import { fetchWrapper } from './tools';
 
 function Login(){
   /* not show anything for 700 ms and if doesnt get
@@ -15,12 +16,13 @@ function Login(){
     }, 700);
 
     (async () => {
-      const response = await fetch(`${API_URL}/login`);
-      if(!response.ok){
+      try {
+        var response = await fetchWrapper(`${API_URL}/login`);
+      } catch(err: any) {
         dispatch(addAlert({
-          text: "مشکل در برقراری ارتباط با سرور",
-          durationSecond: 5,
-          type: "danger"
+          text: err,
+          type: "danger",
+          durationSecond: 15
         }));
         return;
       }

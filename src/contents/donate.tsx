@@ -6,6 +6,7 @@ import { ReactComponent as HeartPic } from '../images/heart.svg';
 import { ChangeEvent } from 'react';
 
 import { API_URL } from '../constants';
+import { fetchWrapper } from '../tools'
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
@@ -36,37 +37,44 @@ function Donate(): JSX.Element{
       return;
     }
 
-    if(parseInt(donationAmount) < 3000){
+    let amount: number = parseInt(donationAmount);
+    if(amount < 10_000){
       dispatch(addAlert({
-        text: "حداقل مبلغ حمایت 3000 تومان می باشد",
-        durationSecond: 5,
-        type: "danger"
+        text: "حداقل مبلغ حمایت 10,000 تومان هست، میشه پوله یه آبنبات 🍭",
+        durationSecond: 10,
+        type: "info"
       }));
       return;
     }
 
-    const response = await fetch(`${API_URL}/submit_donation/${donationAmount}`);
-    if(!response.ok){
+    if(amount > 1_000_000){
       dispatch(addAlert({
-        text: "مشکل در برقراری ارتباط با سرور",
-        durationSecond: 5,
-        type: "danger"
+        text: "داداش پولات تموم میشه نمی خواد اینقدر کمک کنی، زیر یک میلیون بزن 😎",
+        durationSecond: 10,
+        type: "info"
+      }));
+      return;
+    }
+
+    try {
+      var response = await fetchWrapper(`${API_URL}/submit_donation`, {
+        method: "POST",
+        body: `amount=${donationAmount}`
+      });
+    } catch(err: any) {
+      dispatch(addAlert({
+        text: err,
+        type: "danger",
+        durationSecond: 15
       }));
       return;
     }
 
     const data = await response.json();
-    let result = data["result"];
-
-    if(result !== 0){
-      let errors: string[] = [
-        "مشکلی پیش اومده لطفا صفحه را رفرش کنید",
-        `مشکلی پیش اومده لطفا آن را با ادمین درمیان بگذارید، کد ارور: ${data["url"]}`
-      ];
-
+    if(!data["success"]){
       dispatch(addAlert({
-        text: errors[result],
-        durationSecond: 15,
+        text: `ارور ${data["hint"]}، ساخت درگاه پرداخت با مشکل مواجه شد لطفا با ادمین درمیون بزارید`,
+        durationSecond: 30,
         type: "danger"
       }));
       return;
@@ -78,7 +86,7 @@ function Donate(): JSX.Element{
       type: "success",
       extraClass: "animate__animated animate__pulse animate__infinite"
     }));
-    window.location.href = data["url"];
+    window.location.href = `https://www.zarinpal.com/pg/StartPay/${data["authority"]}`;
   }
 
   return (
