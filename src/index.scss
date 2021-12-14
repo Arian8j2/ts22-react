@@ -307,12 +307,12 @@ html, body, #root{
 
             #input-container{
                 background-color: $primary;
-                border-radius: $radius/2;
+                border-radius: calc($radius/2);
                 width: 95%;
 
                 button{
                     width: 100%;
-                    border-radius: 3px 3px $radius/2 $radius/2;
+                    border-radius: 3px 3px calc($radius/2) calc($radius/2);
                     padding: .2em;
                 }
 
@@ -736,11 +736,11 @@ html, body, #root{
   
     @for $i from 1 through $circle-count {
         &:nth-child(#{$i}) {
-            $ratio: $i / $circle-count;
+            $ratio: calc($i / $circle-count);
             // Make a ring of circles, and move them to center;
-            transform: rotate($ratio * 720deg) translateX($ring-radius);
+            transform: rotate(calc($ratio * 720deg)) translateX($ring-radius);
             // Then stagger the animation, and it becomes a spiral.
-            animation-delay: $ratio * $duration;
+            animation-delay: calc($ratio * $duration);
         }
     }
 }
