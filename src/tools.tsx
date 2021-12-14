@@ -1,3 +1,5 @@
+import { API_URL } from './constants'
+
 function getCookie(name: string): string | null {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -13,33 +15,39 @@ function getCookie(name: string): string | null {
   return cookieValue;
 }
 
-async function fetchWrapper(input: RequestInfo, init?: RequestInit): Promise<Response> {
+interface BasicInfo {
+  method: string,
+  data?: Object
+};
+
+async function fetchWrapper(url: string, { method, data }: BasicInfo = { method: "GET" }): Promise<Response> {
   const reasons = {
     reload: "مشکلی پیش اومده لطفا صفحه رو رفرش کنید و در صورت تکرار شدن این مشکل، آن را به ما اطلاع دهید",
     connectionLost: "مشکل در برقراری ارتباط با سرور، لطفا دوباره سعی کنید"
   }
 
-  if(init === undefined)
-    init = {}
+  let requestData: RequestInit = {
+    credentials: "include",
+    method: method,
+    body: data ? JSON.stringify(data) : undefined
+  };
 
-  init.credentials = "include";
-
-  if(init?.method === "POST"){
+  // only include csrftoken in post requests
+  if(method === "POST"){
     let csrfCookie = getCookie("csrftoken");
 
     if(csrfCookie == null)
       return Promise.reject(reasons.reload);
 
-    Object.assign(init, {
-      headers: {
-        "X-CSRFToken": csrfCookie,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
+    requestData.headers = {
+      "X-CSRFToken": csrfCookie,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
   }
 
   try {
-    var response = await fetch(input, init);
+    var response = await fetch(`${API_URL}/${url}`, requestData);
     if(!response.ok)
       throw new Error();
   

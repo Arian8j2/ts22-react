@@ -5,7 +5,6 @@ import { addAlert } from '../redux/reducers';
 import { ReactComponent as HeartPic } from '../images/heart.svg';
 import { ChangeEvent } from 'react';
 
-import { API_URL } from '../constants';
 import { fetchWrapper } from '../tools'
 
 import SimpleBar from 'simplebar-react';
@@ -57,9 +56,9 @@ function Donate(): JSX.Element{
     }
 
     try {
-      var response = await fetchWrapper(`${API_URL}/submit_donation`, {
+      var response = await fetchWrapper("submit_donation", {
         method: "POST",
-        body: `amount=${donationAmount}`
+        data: { "amount": donationAmount }
       });
     } catch(err: any) {
       dispatch(addAlert({

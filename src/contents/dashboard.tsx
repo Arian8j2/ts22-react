@@ -4,7 +4,6 @@ import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-pro
 import { useSelector, useDispatch } from 'react-redux';
 import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 
-import { API_URL } from '../constants';
 import { fetchWrapper } from '../tools';
 
 const RankColors: Record<number, {name: string, color: string}> = {
@@ -146,9 +145,9 @@ function Dashboard(){
     }
 
     try {
-      var response = await fetchWrapper(`${API_URL}/submit_refid`, {
+      var response = await fetchWrapper("submit_refid", {
         method: "POST",
-        body: `refid=${refid}`
+        data: { refid: parseInt(refid) }
       });
     } catch(err: any) {
       dispatch(addAlert({
@@ -197,10 +196,7 @@ function Dashboard(){
     }
 
     try {
-      var response = await fetchWrapper(`${API_URL}/upgrade`, {
-        method: "POST",
-        credentials: "include"
-      });
+      var response = await fetchWrapper("upgrade", { method: "POST" });
     } catch(err: any) {
       dispatch(addAlert({
         text: err,

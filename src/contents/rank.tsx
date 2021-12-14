@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { API_URL } from '../constants';
 import { addAlert, setClientRanks } from '../redux/reducers';
 import { fetchWrapper } from '../tools'
 
@@ -66,9 +65,9 @@ function Rank(): JSX.Element{
     remainedRanks.current = null;
 
     try {
-      await fetchWrapper(`${API_URL}/give_ranks`, {
+      await fetchWrapper("give_ranks", {
         method: "POST",
-        body: `ranks=${currentRanks.join(",")}`
+        data: { "ranks": currentRanks }
       });
     } catch(err: any) {
       dispatch(addAlert({

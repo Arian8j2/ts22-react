@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAlert, setClientInfo, setLoginState, setDonators } from './redux/reducers';
-import { API_URL } from './constants';
 import { fetchWrapper } from './tools';
 
 function Login(){
@@ -17,7 +16,7 @@ function Login(){
 
     (async () => {
       try {
-        var response = await fetchWrapper(`${API_URL}/login`);
+        var response = await fetchWrapper("login");
       } catch(err: any) {
         dispatch(addAlert({
           text: err,
@@ -60,18 +59,13 @@ function Login(){
         return;
       }
 
-      let ranks: Array<number> = [];
-
-      for(let rank of (data["ranks"] as string).split(","))
-        ranks.push(parseInt(rank));
-
       dispatch(setClientInfo({
         cldbid: data["cldbid"],
         connTime: data["conn-time"],
         neededPoints: data["needed-points"],
         netUsage: data["net-usage"],
         points: data["points"],
-        ranks: ranks,
+        ranks: data["ranks"],
         refid: data["refid"]
       }));
 
