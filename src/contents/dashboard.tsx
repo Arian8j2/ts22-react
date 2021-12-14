@@ -224,6 +224,12 @@ function Dashboard(){
         }
       }
 
+      let regMatch = nowNextRank.match(/(?<rankName>\w+)(?<extra>\++)/)
+      if(regMatch?.groups){
+        let { rankName, extra } = regMatch.groups;
+        nowNextRank = extra + rankName;
+      }
+
       let celebrateMsg = nowNextRank === "" ?
         "با موفقیت ارتقا یافتی، ولی متاسفم که باید بهت بگم این آخرین رنکی بود که به صورت اتوماتیک می تونستی دریافت کنی، از اینجا به بعد باید از ادمین رنک بگیری 😔"
       :
