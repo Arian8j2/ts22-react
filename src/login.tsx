@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addAlert, setClientInfo, setLoginState, setDonators } from './redux/reducers';
-import { fetchWrapper } from './tools';
+import { setClientInfo, setLoginState, setDonators } from './redux/reducers';
+import { fetchWrapper, addAlert } from './tools';
 
 function Login(){
   /* not show anything for 700 ms and if doesnt get
@@ -18,11 +18,10 @@ function Login(){
       try {
         var response = await fetchWrapper("login");
       } catch(err: any) {
-        dispatch(addAlert({
+        addAlert({
           text: err,
           type: "danger",
-          durationSecond: 15
-        }));
+        }, 15);
         return;
       }
 
@@ -34,26 +33,23 @@ function Login(){
       ];
       
       if(data["alert"] !== null){
-        dispatch(addAlert({
+        addAlert({
           text: data["alert"]["text"],
-          durationSecond: 30,
           type: serverAlertTypes[data["alert"]["type"]]
-        }));
+        }, 30);
       }
 
       if(data["found"] !== true){
         if(data["quest"]){
-          dispatch(addAlert({
+          addAlert({
             text: "برای استفاده از قابلیت های سایت باید حداقل رنک Member داشته باشید",
-            durationSecond: 10,
             type: "danger"
-          }));
+          }, 10);
         } else {
-          dispatch(addAlert({
+          addAlert({
             text: "متاسفانه نتونستیم شما را شناسایی کنیم، به احتمال زیاد مشکل شما استفاده از فیلترشکن جدا در مرورگر هست یا اینترنت شما با کسی که در تیم اسپیک هست فرق دارد و یا کلا در تیم اسپیک نیستید.",
-            durationSecond: 20,
             type: "danger"
-          }));
+          }, 20);
         }
 
         return;

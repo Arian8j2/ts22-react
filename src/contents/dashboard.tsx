@@ -2,9 +2,9 @@ import { useState, useEffect, ChangeEvent } from 'react';
 import { CircularProgressbarWithChildren, buildStyles } from 'react-circular-progressbar'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addAlert, setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
+import { setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 
-import { fetchWrapper } from '../tools';
+import { fetchWrapper, addAlert } from '../tools';
 
 const RankColors: Record<number, {name: string, color: string}> = {
   16: {
@@ -127,20 +127,18 @@ function Dashboard(){
   
   async function onSubmitRefid(){
     if(refid === ""){
-      dispatch(addAlert({
+      addAlert({
         text: "اگه کسی بهت سرور رو معرفی کرده می تونی کد دعوت شو ازش بگیری و اینجا وارد کنی تا بهش پوینت برسه",
-        durationSecond: 10,
         type: "info"
-      }));
+      }, 10);
       return;
     }
 
     if(parseInt(refid) === clientInfo.cldbid){
-      dispatch(addAlert({
+      addAlert({
         text: "باو این کد خودته یعنی این کد رو باید دوستات بزنن تا به تو پوینت برسه، تو هم باید کد بقیه رو بزنی نه کد خودت 😐",
-        durationSecond: 12,
-        type: "danger"
-      }));
+        type: "info"
+      }, 10);
       return;
     }
 
@@ -150,11 +148,10 @@ function Dashboard(){
         data: { refid: parseInt(refid) }
       });
     } catch(err: any) {
-      dispatch(addAlert({
+      addAlert({
         text: err,
-        type: "danger",
-        durationSecond: 15
-      }));
+        type: "danger"
+      }, 15);
       return;
     }
 
@@ -162,11 +159,10 @@ function Dashboard(){
     if(data["success"]){
 
       let refName: string = data["name"];
-      dispatch(addAlert({
+      addAlert({
         text: `کد دعوت با موفقیت ثبت شد، همچنین به ${refName} هم بخاطر دعوتش پوینت رسید، خوشحال نشو به تو که چیزی نمی رسه، اون دعوتت کرده 😊 `,
-        durationSecond: 15,
         type: "success"
-      }));
+      }, 15);
       dispatch(setClientRefid(refName));
 
     } else {
@@ -177,32 +173,29 @@ function Dashboard(){
       };
       let errorMsg: string = data["hint"] in errors? errors[data["hint"]] : "مشکلی بوجود اومده لطفا صفحه را رفرش کنید!"; 
 
-      dispatch(addAlert({
+      addAlert({
         text: errorMsg,
-        durationSecond: 10,
         type: "danger"
-      }));
+      }, 10);
     }
   }
 
   async function onUpgradeRank(){
     if(clientInfo.points < clientInfo.neededPoints){
-      dispatch(addAlert({
+      addAlert({
         text: `برای ارتقا به ${clientInfo.neededPoints} پوینت نیاز داری که الان ${clientInfo.points} تاشو جم کردی، یه روزی بالاخره ${nextRank} میشی 😔`,
-        durationSecond: 10,
         type: "info"
-      }));
+      }, 10);
       return;
     }
 
     try {
       var response = await fetchWrapper("upgrade", { method: "POST" });
     } catch(err: any) {
-      dispatch(addAlert({
+      addAlert({
         text: err,
         type: "danger",
-        durationSecond: 15
-      }));
+      }, 15);
       return;
     }
 
@@ -235,17 +228,15 @@ function Dashboard(){
       :
         `با موفقیت ارتقا یافتی، مبارکت باشه، ایشالا ${nowNextRank} شدنت رو ببینم`;
 
-      dispatch(addAlert({
+      addAlert({
         text: celebrateMsg,
-        durationSecond: 15,
         type: "success"
-      }));
+      }, 15);
     } else {
-      dispatch(addAlert({
+      addAlert({
         text: "مشکلی بوجود اومده لطفا صفحه را رفرش کنید!",
-        durationSecond: 10,
         type: "danger"
-      }))
+      }, 10);
     }
   }
 

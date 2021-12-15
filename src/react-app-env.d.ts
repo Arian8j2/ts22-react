@@ -8,7 +8,6 @@ declare module "*.svg" {
 type AlertType = "success" | "danger" | "info";
 interface AlertInfo{
   text: string,
-  durationSecond: number,
   type: AlertType,
   extraClass?: string
 };

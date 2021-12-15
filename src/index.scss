@@ -564,16 +564,19 @@ html, body, #root{
     }
 }
 
+.alert-container{
+    width: 100%;
+    position: fixed;
+    top: .5em;
+    z-index: 2;
+}
+
 .alert{
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    top: .5em;
-    z-index: 2;
-    box-sizing: border-box;
 
     .alert-text{
         width: fit-content;

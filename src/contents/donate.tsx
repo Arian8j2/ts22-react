@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { addAlert } from '../redux/reducers';
 import { ReactComponent as HeartPic } from '../images/heart.svg';
 import { ChangeEvent } from 'react';
 
-import { fetchWrapper } from '../tools'
+import { fetchWrapper, addAlert } from '../tools'
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 function Donate(): JSX.Element{
   const donators = useSelector((state: RootReducer) => state.donators);
-  const dispatch = useDispatch();
 
   const [animIsLoaded, setAnimload] = useState(false);
   const [donationAmount, setDonationAmount] = useState("");
@@ -28,30 +26,27 @@ function Donate(): JSX.Element{
 
   async function onDonate(){
     if(donationAmount === ""){
-      dispatch(addAlert({
+      addAlert({
         text: "اول مبلغ حمایت رو وارد کن",
-        durationSecond: 5,
         type: "info"
-      }));
+      }, 5);
       return;
     }
 
     let amount: number = parseInt(donationAmount);
     if(amount < 10_000){
-      dispatch(addAlert({
+      addAlert({
         text: "حداقل مبلغ حمایت 10,000 تومان هست، میشه پوله یه آبنبات 🍭",
-        durationSecond: 10,
         type: "info"
-      }));
+      }, 10);
       return;
     }
 
     if(amount > 1_000_000){
-      dispatch(addAlert({
+      addAlert({
         text: "داداش پولات تموم میشه نمی خواد اینقدر کمک کنی، زیر یک میلیون بزن 😎",
-        durationSecond: 10,
         type: "info"
-      }));
+      }, 10);
       return;
     }
 
@@ -61,30 +56,27 @@ function Donate(): JSX.Element{
         data: { "amount": donationAmount }
       });
     } catch(err: any) {
-      dispatch(addAlert({
+      addAlert({
         text: err,
         type: "danger",
-        durationSecond: 15
-      }));
+      }, 15);
       return;
     }
 
     const data = await response.json();
     if(!data["success"]){
-      dispatch(addAlert({
+      addAlert({
         text: `ارور ${data["hint"]}، ساخت درگاه پرداخت با مشکل مواجه شد لطفا با ادمین درمیون بزارید`,
-        durationSecond: 30,
         type: "danger"
-      }));
+      }, 20);
       return;
     }
 
-    dispatch(addAlert({
+    addAlert({
       text: 'در حال انتقال به درگاه پرداخت',
-      durationSecond: 2000,
       type: "success",
       extraClass: "animate__animated animate__pulse animate__infinite"
-    }));
+    }, 100);
     window.location.href = `https://www.zarinpal.com/pg/StartPay/${data["authority"]}`;
   }
 

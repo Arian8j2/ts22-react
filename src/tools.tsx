@@ -1,5 +1,8 @@
 import { API_URL } from './constants'
 
+import store from './redux/store'
+import { addAlert as addAlertAction, removeAlert } from './redux/reducers'
+
 function getCookie(name: string): string | null {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -57,4 +60,16 @@ async function fetchWrapper(url: string, { method, data }: BasicInfo = { method:
   }
 }
 
-export { fetchWrapper };
+function addAlert(alert: AlertInfo, durationSecond: number) {
+  for(let al of store.getState().alerts)
+    if(al.text === alert.text)
+      return;
+
+  store.dispatch(addAlertAction(alert));
+
+  setTimeout(() => {
+    store.dispatch(removeAlert(alert.text));
+  }, durationSecond * 1000);
+}
+
+export { fetchWrapper, addAlert };

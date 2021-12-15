@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAlert, setClientRanks } from '../redux/reducers';
-import { fetchWrapper } from '../tools'
+import { setClientRanks } from '../redux/reducers';
+import { fetchWrapper, addAlert } from '../tools'
 
 const maxGameRanks: number = 3;
 const doNotDisturbId: number = 118;
@@ -70,11 +70,10 @@ function Rank(): JSX.Element{
         data: { "ranks": currentRanks }
       });
     } catch(err: any) {
-      dispatch(addAlert({
+      addAlert({
         text: err,
         type: "danger",
-        durationSecond: 15
-      }));
+      }, 15);
       return true;
     }
     
@@ -140,17 +139,15 @@ function Rank(): JSX.Element{
         buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
         buffer.push(doNotDisturbId);
 
-        dispatch(addAlert({
+        addAlert({
           text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس بجای سه تا رنک بهت این رنک طلایی رو میدم، قابل نداره`,
-          durationSecond: 15,
           type: "info"
-        }));
+        }, 15);
       } else if(hasDnd && privaciesRanksId.includes(rankId)) {
-        dispatch(addAlert({
+        addAlert({
           text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس ابتدا رنک Do Not Disturb رو از خودت بگیر`,
-          durationSecond: 10,
           type: "danger"
-        }));
+        }, 10);
         return;
       }
 
@@ -166,11 +163,10 @@ function Rank(): JSX.Element{
       }
 
       if(gameRankCount > maxGameRanks){
-        dispatch(addAlert({
+        addAlert({
           text: `نمی تونی بیشتر از ${maxGameRanks} رنک بازی به خودت بدی`,
-          durationSecond: 5,
-          type: "danger"
-        }));
+          type: "danger",
+        }, 5);
         return;
       }
     }

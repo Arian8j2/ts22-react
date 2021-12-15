@@ -47,28 +47,11 @@ const alertsSlice = createSlice({
   initialState: [] as AlertInfo[],
   reducers: {
     addAlert: (state, action: PayloadAction<AlertInfo>) => {
-      for(let rank of state){
-        if(rank.text === action.payload.text){
-          return state;
-        }
-      }
-      
-      const nowTime = (new Date()).getTime();
-      state.push({
-        text: action.payload.text,
-        type: action.payload.type,
-        durationSecond: nowTime + action.payload.durationSecond*1000, // noew durationSecond is actually expireTime xD
-        extraClass: action.payload.extraClass
-      }); 
+      state.push(action.payload);    
     },
 
-    updateAlerts: (state) => {
-      const nowTime = (new Date()).getTime();
-      const newState = state.filter((val) => {
-        return val.durationSecond > nowTime;
-      });
-
-      return newState;
+    removeAlert: (state, action: PayloadAction<string>) => {
+      return state.filter(val => val.text !== action.payload);
     }
   }
 });
@@ -86,7 +69,7 @@ const donatorsSlice = createSlice({
 export {loginStateSlice, clientInfoSlice, alertsSlice, donatorsSlice};
 
 export const addAlert = alertsSlice.actions.addAlert,
-             updateAlerts = alertsSlice.actions.updateAlerts,
+             removeAlert = alertsSlice.actions.removeAlert,
              setLoginState = loginStateSlice.actions.setLoginState,
              setClientInfo = clientInfoSlice.actions.setClientInfo,
              setClientRefid = clientInfoSlice.actions.setClientRefid,

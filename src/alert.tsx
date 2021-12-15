@@ -1,54 +1,34 @@
-// TODO: rewrite whole alert system in better way
+import { useSelector } from 'react-redux';
+import FlipMove from 'react-flip-move';
 
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateAlerts } from './redux/reducers';
-import { Flipper, Flipped } from 'react-flip-toolkit';
-
-function Alert(){
-  const [junkState, setJunkState] = useState(false); // just for re render every 500 ms
+export default function Alert() {
   const alerts = useSelector((state: RootReducer) => state.alerts);
-  const dispatch = useDispatch();
-
-  if(alerts.length === 0)
-    return (<></>);
-
-  setTimeout(() => {
-    setJunkState(!junkState);
-  }, 500);
-
-  /* react-flip-toolkit doesnt remove transform 0 0 so animatecss calculates
-     wrong space and scale out to diffrent location */
-  setTimeout(() => {
-    for(let alertText of document.getElementsByClassName("alert-text")){
-      if(alertText.getAttribute("style") === "transform-origin: 0px 0px;"){
-        alertText.removeAttribute("style");
-      }
-    }
-  }, 600);
-
-  setTimeout(() => {
-    dispatch(updateAlerts());
-  }, 2000);
-
-  const nowTime = (new Date()).getTime();
 
   return (
-    <Flipper flipKey={alerts} className="alert" spring="gentle">
-        {alerts.map((val, index) => {
-          let expireTime = val.durationSecond;
-          return (
-            <Flipped key={expireTime} flipId={expireTime}>
-              <div key={expireTime} className={`alert-text alert-${val.type} animate__animated animate__zoom${expireTime - 500 < nowTime ? "Out": "In"}`}>
-                <div className={`${val.extraClass? val.extraClass: ""}`}>
-                  {val.text}
-                </div>
-              </div>
-            </Flipped>
-          );
-        })}
-    </Flipper>
+    <div className="alert-container">
+      <FlipMove className="alert" enterAnimation={{
+        from: {
+          opacity: ".2",
+          transform: "scale(.2)",
+        },
+        to: {
+          opacity: "1",
+          transform: "scale(1)",
+          transition: "all .8s"
+        }
+      }} leaveAnimation={{
+        from: { },
+        to: {
+          opacity: ".2",
+          transform: "scale(.5)",
+        }
+      }}>
+        {alerts.map(alert => 
+          <div key={alert.text} className={`alert-text alert-${alert.type} ${alert.extraClass || ""}`}>
+            {alert.text}
+          </div>          
+        )}
+      </FlipMove>
+    </div>
   )
 }
-
-export default Alert;
