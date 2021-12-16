@@ -176,8 +176,12 @@ html, body, #root{
     text-align: center;
 }
 
-@media (hover: hover){ 
-    .inner-hover:hover{
+@media (hover: hover){
+    .inner-hover {
+        will-change: transform;
+    }
+    
+    .inner-hover:hover {
         transition: box-shadow .5s, transform .5s;
         transform: translateY(-10px);
         box-shadow: 0px 12px 10px 1px rgba(0, 0, 0, .2);
@@ -254,6 +258,10 @@ html, body, #root{
     width: 3px;
     border-radius: $radius;
 } 
+
+.simplebar-placeholder {
+    width: auto !important; // fixes some weird bug which happens when zooming on webkit
+}
 
 #content-content{
     grid-column: content / sidebar;
