@@ -85,6 +85,11 @@ function Login(){
 
       dispatch(setDonators(donators));
       dispatch(setLoginState(true));
+      
+      const root = document.getElementById("root");
+      if(root !== null)
+        root.style.backgroundPosition = "center";
+        
     })();
 
     return () => {
