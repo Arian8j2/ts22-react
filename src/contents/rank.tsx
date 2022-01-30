@@ -4,7 +4,7 @@ import { setClientRanks } from '../redux/reducers';
 import { fetchWrapper, addAlert } from '../tools'
 
 const maxGameRanks: number = 3;
-const doNotDisturbId: number = 118;
+const doNotDisturbId: number = 215;
 
 interface RankInfo{
   id: number,
@@ -13,31 +13,31 @@ interface RankInfo{
 };
 
 const gameRanks: RankInfo[] = [
-  {id: 43, name: "Dota 2", color: "red"},
-  {id: 44, name: "Call Of Duty", color: "green"},
-  {id: 68, name: "Fortnite", color: "blue"},
-  {id: 47, name: "DDNet", color: "yellow"},
-  {id: 45, name: "Minecraft", color: "green"},
-  {id: 48, name: "World Of Warcraft", color: "yellow"},
-  {id: 50, name: "Rust", color: "red"},
-  {id: 51, name: "Zula", color: "grey"},
-  {id: 52, name: "League Of Legends", color: "blue"},
-  {id: 65, name: "PUBG", color: "yellow"},
-  {id: 46, name: "Gta V", color: "green"},
-  {id: 87, name: "Garry's Mod", color: "blue"},
-  {id: 49, name: "Counter Strike", color: "yellow"},
-  {id: 85, name: "Apex Legends", color: "red"},
-  {id: 86, name: "Rocket League", color: "blue"},
-  {id: 88, name: "Rainbow Six Siege", color: "grey"},
-  {id: 106, name: "Hyperscape", color: "yellow"},
-  {id: 105, name: "Valorant", color: "red"}
+  {id: 151, name: "Dota 2", color: "red"},
+  {id: 152, name: "Call Of Duty", color: "green"},
+  {id: 176, name: "Fortnite", color: "blue"},
+  {id: 155, name: "DDNet", color: "yellow"},
+  {id: 153, name: "Minecraft", color: "green"},
+  {id: 156, name: "World Of Warcraft", color: "yellow"},
+  {id: 158, name: "Rust", color: "red"},
+  {id: 159, name: "Zula", color: "grey"},
+  {id: 160, name: "League Of Legends", color: "blue"},
+  {id: 173, name: "PUBG", color: "yellow"},
+  {id: 154, name: "Gta V", color: "green"},
+  {id: 195, name: "Garry's Mod", color: "blue"},
+  {id: 157, name: "Counter Strike", color: "yellow"},
+  {id: 193, name: "Apex Legends", color: "red"},
+  {id: 194, name: "Rocket League", color: "blue"},
+  {id: 196, name: "Rainbow Six Siege", color: "grey"},
+  {id: 214, name: "Hyperscape", color: "yellow"},
+  {id: 213, name: "Valorant", color: "red"}
 ];
 
 const privacyRanks: RankInfo[] = [
-  {id: 34, name: "Anti Poke", color: "yellow"},
-  {id: 33, name: "Anti Pm", color: "yellow"},
+  {id: 142, name: "Anti Poke", color: "yellow"},
+  {id: 141, name: "Anti Pm", color: "yellow"},
   {id: doNotDisturbId, name: "Do Not Disturb", color: "red"},
-  {id: 92, name: "Anti Move", color: "yellow"},
+  {id: 200, name: "Anti Move", color: "yellow"},
 ]
 
 const sections: {htmlId: string, title: string, ranks: RankInfo[]}[] = [

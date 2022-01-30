@@ -7,47 +7,47 @@ import { setClientRefid, setClientInfoAfterRankUp } from '../redux/reducers';
 import { fetchWrapper, addAlert } from '../tools';
 
 const RankColors: Record<number, {name: string, color: string}> = {
-  16: {
+  124: {
     name: "Elite", 
     color: "#F29929"
   },
-  77: {
+  185: {
     name: "Vip", 
     color: "#0090D9" 
   },
-  63: {
+  171: {
     name: "Vip+", 
     color: "#2DC7DB"
   },
-  23: {
+  131: {
     name: "Vip++",
     color: "#0170DB"
   },
-  64: {
+  172: {
     name: "Assistant",
     color: "#1D2027"
   },
-  75: {
+  183: {
     name: "Helper",
     color: "#930AF5"
   },
-  78: {
+  186: {
     name: "Consultant",
     color: "#F500ED"
   }
 };
 
 const NotUpgradableRanksColor: Record<number, string> = {
-  76: "#F500ED", // consultant
-  22: "#00BA1F", // supporter
-  21: "#00FA2A", // moderator
-  73: "#007A14", // manager
-  72: "#B38A2B", // developer
-  71: "#FAC219", // sub admin
-  70: "#FA7325", // admin
-  19: "#FA5D0B", // head admin
-  74: "#FA1F0B", // server admin
-  15: "#800F05", // owner
+  184: "#F500ED", // consultant
+  130: "#00BA1F", // supporter
+  129: "#00FA2A", // moderator
+  181: "#007A14", // manager
+  180: "#B38A2B", // developer
+  179: "#FAC219", // sub admin
+  178: "#FA7325", // admin
+  127: "#FA5D0B", // head admin
+  182: "#FA1F0B", // server admin
+  123: "#800F05", // owner
 };
 
 function FormatKiloBytes(kilobytes: number, decimals: number = 2): [number | string, string] {
