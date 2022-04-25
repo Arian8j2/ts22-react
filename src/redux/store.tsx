@@ -1,13 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { loginStateSlice, clientInfoSlice, alertsSlice, donatorsSlice } from './reducers';
+import { clientInfo, alert } from './reducers';
 
 const rootReducer = combineReducers({
-  isLogin: loginStateSlice.reducer,
-  clientInfo: clientInfoSlice.reducer,
-  alerts: alertsSlice.reducer,
-  donators: donatorsSlice.reducer
+  clientInfo: clientInfo.reducer,
+  alert: alert.reducer,
 });
 
-const store = configureStore({reducer: rootReducer});
-
+const store = configureStore({ reducer: rootReducer });
 export default store;

@@ -14,7 +14,7 @@ interface NavInfo {
   icon: IconDefinition,
   component: () => JSX.Element,
   isDefault?: boolean
-}
+};
 
 const navInfo: NavInfo[] = [
   {
@@ -38,8 +38,8 @@ const navInfo: NavInfo[] = [
   }
 ];
 
-function Sidebar(props: { isMobile: boolean }): JSX.Element {
-  if(props.isMobile){
+export default function Sidebar(props: { isMobile: boolean }) {
+  if (props.isMobile) {
     return (
       <div id="bottom-navbar">
         {navInfo.map((val) => {
@@ -48,11 +48,11 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
               <FontAwesomeIcon icon={val.icon} />
               <span className="bottom-navbar-text">{val.name}</span>
             </NavLink>
-          )
+          );
         })}
       </div>
     );
-  } else
+  } else {
     return (
       <div id="sidebar">
         <div id="sidebar-img-wrapper">
@@ -60,13 +60,17 @@ function Sidebar(props: { isMobile: boolean }): JSX.Element {
         </div>
 
         <div id="sidebar-content">
-          {navInfo.map((val) => {
-            return <NavLink key={val.url} to={val.url} exact activeClassName="active">{val.name}</NavLink>  
+          {navInfo.map(val => {
+            return (
+              <NavLink key={val.url} to={val.url} exact activeClassName="active">
+                {val.name}
+              </NavLink>
+            );
           })}
         </div>
       </div>
     );
+  }
 }
 
-export default Sidebar;
 export { navInfo };

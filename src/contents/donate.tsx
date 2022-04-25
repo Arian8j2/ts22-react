@@ -1,40 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { type RootReducer } from '../redux/reducers';
 
 import { ReactComponent as HeartPic } from '../images/heart.svg';
 import { ChangeEvent } from 'react';
 
-import { fetchWrapper, addAlert } from '../tools'
+import { fetchWrapper, addAlert } from '../utils';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 function Donate(): JSX.Element{
-  const donators = useSelector((state: RootReducer) => state.donators);
-
-  const [animIsLoaded, setAnimload] = useState(false);
+  const donators = useSelector((state: RootReducer) => state.clientInfo.donators);
   const [donationAmount, setDonationAmount] = useState("");
-  const extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
 
-  useEffect(() => {
-    const animTimeout = setTimeout(() => {
-      setAnimload(true);
-    }, 1500);
-
-    return () => {clearTimeout(animTimeout);}
-  }, [setAnimload]);
-
-  async function onDonate(){
-    if(donationAmount === ""){
-      addAlert({
-        text: "اول مبلغ حمایت رو وارد کن",
-        type: "info"
-      }, 5);
+  async function onDonate() {
+    if (!donationAmount.length) {
+      addAlert({ text: "اول مبلغ حمایت رو وارد کن", type: "info" }, 5);
       return;
     }
 
     let amount: number = parseInt(donationAmount);
-    if(amount < 10_000){
+    if (amount < 10_000) {
       addAlert({
         text: "حداقل مبلغ حمایت 10,000 تومان هست، میشه پوله یه آبنبات 🍭",
         type: "info"
@@ -42,7 +29,7 @@ function Donate(): JSX.Element{
       return;
     }
 
-    if(amount > 1_000_000){
+    if (amount > 1_000_000) {
       addAlert({
         text: "داداش پولات تموم میشه نمی خواد اینقدر کمک کنی، زیر یک میلیون بزن 😎",
         type: "info"
@@ -55,7 +42,7 @@ function Donate(): JSX.Element{
         method: "POST",
         data: { "amount": donationAmount }
       });
-    } catch(err: any) {
+    } catch (err: any) {
       addAlert({
         text: err,
         type: "danger",
@@ -64,7 +51,7 @@ function Donate(): JSX.Element{
     }
 
     const data = await response.json();
-    if(!data["success"]){
+    if (!data["success"]) {
       addAlert({
         text: `ارور ${data["hint"]}، ساخت درگاه پرداخت با مشکل مواجه شد لطفا با ادمین درمیون بزارید`,
         type: "danger"
@@ -82,7 +69,7 @@ function Donate(): JSX.Element{
 
   return (
     <div id="donate">
-      <div id="donate-donate" className={`inner-box ${extraClass}`}>
+      <div id="donate-donate" className="inner-box animate__animated animate__zoomIn">
         <div className="title">حمایت</div>
         <div className="title-info" style={{flexGrow: 1}}>برای حمایت از ما می تونید مبلغ دلخواهی رو به ما اهدا کنید که به ما در تمدید و ارتقا سرور کمک می کنه</div>
         <div id="input-container">
@@ -95,7 +82,7 @@ function Donate(): JSX.Element{
           <button style={{marginTop: ".25em"}} onClick={onDonate}>ثبت</button>
         </div>
       </div>
-      <div id="donate-donators" className={`inner-box ${extraClass} animate__delay-1s`}>
+      <div id="donate-donators" className="inner-box animate__animated animate__zoomIn animate__delay-1s">
         <div className="title">حامیان مالی</div>
         <SimpleBar id="donators" autoHide={false}>
           {donators.map((val, index) => 
@@ -106,7 +93,7 @@ function Donate(): JSX.Element{
           )}
         </SimpleBar>
       </div>
-      <div id="donate-price" className={`inner-box ${extraClass} animate__delay-2s`}>
+      <div id="donate-price" className="inner-box animate__animated animate__zoomIn animate__delay-2s">
         <div className="title">جوایز</div>
         <div className="title-info">برای قدردانی، حامیان یک رنک مخصوصی دریافت می کنند</div>
         <HeartPic width={64} height={64}/>

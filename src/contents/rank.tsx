@@ -1,184 +1,135 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClientRanks } from '../redux/reducers';
-import { fetchWrapper, addAlert } from '../tools'
+import { clientInfo, type RootReducer } from '../redux/reducers';
+import { fetchWrapper, addAlert, arrayIsEqual } from '../utils';
 
-const maxGameRanks: number = 3;
-const doNotDisturbId: number = 215;
-
-interface RankInfo{
+interface Rank {
   id: number,
   name: string,
   color: "blue" | "red" | "yellow" | "green" | "grey"
 };
 
-const gameRanks: RankInfo[] = [
-  {id: 151, name: "Dota 2", color: "red"},
-  {id: 152, name: "Call Of Duty", color: "green"},
-  {id: 176, name: "Fortnite", color: "blue"},
-  {id: 155, name: "DDNet", color: "yellow"},
-  {id: 153, name: "Minecraft", color: "green"},
-  {id: 156, name: "World Of Warcraft", color: "yellow"},
-  {id: 158, name: "Rust", color: "red"},
-  {id: 159, name: "Zula", color: "grey"},
-  {id: 160, name: "League Of Legends", color: "blue"},
-  {id: 173, name: "PUBG", color: "yellow"},
-  {id: 154, name: "Gta V", color: "green"},
-  {id: 195, name: "Garry's Mod", color: "blue"},
-  {id: 157, name: "Counter Strike", color: "yellow"},
-  {id: 193, name: "Apex Legends", color: "red"},
-  {id: 194, name: "Rocket League", color: "blue"},
-  {id: 196, name: "Rainbow Six Siege", color: "grey"},
-  {id: 214, name: "Hyperscape", color: "yellow"},
-  {id: 213, name: "Valorant", color: "red"}
+const gameRanks: Rank[] = [
+  { id: 151, name: "Dota 2"           , color: "red"    },
+  { id: 152, name: "Call Of Duty"     , color: "green"  },
+  { id: 176, name: "Fortnite"         , color: "blue"   },
+  { id: 155, name: "DDNet"            , color: "yellow" },
+  { id: 153, name: "Minecraft"        , color: "green"  },
+  { id: 156, name: "World Of Warcraft", color: "yellow" },
+  { id: 158, name: "Rust"             , color: "red"    },
+  { id: 159, name: "Zula"             , color: "grey"   },
+  { id: 160, name: "League Of Legends", color: "blue"   },
+  { id: 173, name: "PUBG"             , color: "yellow" },
+  { id: 154, name: "Gta V"            , color: "green"  },
+  { id: 195, name: "Garry's Mod"      , color: "blue"   },
+  { id: 157, name: "Counter Strike"   , color: "yellow" },
+  { id: 193, name: "Apex Legends"     , color: "red"    },
+  { id: 194, name: "Rocket League"    , color: "blue"   },
+  { id: 196, name: "Rainbow Six Siege", color: "grey"   },
+  { id: 214, name: "Hyperscape"       , color: "yellow" },
+  { id: 213, name: "Valorant"         , color: "red"    }
 ];
 
-const privacyRanks: RankInfo[] = [
-  {id: 142, name: "Anti Poke", color: "yellow"},
-  {id: 141, name: "Anti Pm", color: "yellow"},
-  {id: doNotDisturbId, name: "Do Not Disturb", color: "red"},
-  {id: 200, name: "Anti Move", color: "yellow"},
-]
-
-const sections: {htmlId: string, title: string, ranks: RankInfo[]}[] = [
-  {
-    htmlId: "rank-game",
-    title: "بازی",
-    ranks: gameRanks
-  },
-  {
-    htmlId: "rank-privacy",
-    title: "حریم شخصی",
-    ranks: privacyRanks
-  }
+const privacyRanks: Rank[] = [
+  { id: 142, name: "Anti Poke"     , color: "yellow" },
+  { id: 141, name: "Anti Pm"       , color: "yellow" },
+  { id: 215, name: "Do Not Disturb", color: "red"    },
+  { id: 200, name: "Anti Move"     , color: "yellow" },
 ];
 
-function Rank(): JSX.Element{
-  const savedRanks: number[] = useSelector((state: RootReducer) => state.clientInfo.ranks);
+const MAX_GAME_RANKS = 3;
+const DND_RANK_ID = 215;
+
+const sections = [
+  { id: "game", title: "بازی", ranks: gameRanks },
+  { id: "privacy", title: "حریم شخصی", ranks: privacyRanks }
+];
+
+export default function Rank() {
+  const savedRanks = useSelector((state: RootReducer) => state.clientInfo.ranks);
   const dispatch = useDispatch();
-  const remainedRanks = useRef<null | number[]>(null);
+
   const [nowRanks, setNowRanks] = useState(savedRanks);
-  const [animIsLoaded, setAnimload] = useState(false);
-  const extraClass = animIsLoaded ? "inner-hover": "animate__animated animate__zoomIn";
 
-  const updateRanks = useCallback((async (currentRanks: number[]): Promise<boolean> => {
-    remainedRanks.current = null;
+  async function updateRanks() {
+    if (!arrayIsEqual(savedRanks, nowRanks)) {
+      try {
+        await fetchWrapper("give_ranks", {
+          method: "POST",
+          data: { "ranks": nowRanks }
+        });
+      } catch (err: any) {
+        addAlert({
+          text: err,
+          type: "danger",
+        }, 15);
+        setNowRanks(savedRanks);
+        return;
+      }
 
-    try {
-      await fetchWrapper("give_ranks", {
-        method: "POST",
-        data: { "ranks": currentRanks }
-      });
-    } catch(err: any) {
-      addAlert({
-        text: err,
-        type: "danger",
-      }, 15);
-      return true;
+      dispatch(clientInfo.actions.setRanks(nowRanks));
     }
-    
-    dispatch(setClientRanks(currentRanks));
-    return false;
-  }), [dispatch]);
+  }
 
   useEffect(() => {
-    let updateRanksInterval = setInterval(() => {
-      if(nowRanks === savedRanks)
-        return;
-
-      updateRanks(nowRanks).then((revertNowRanks) => {
-        if(revertNowRanks)
-          setNowRanks(savedRanks);
-      });
-      
+    const interval = setInterval(async () => {
+      updateRanks();
     }, 1000);
 
-    return () => {
-      clearInterval(updateRanksInterval);
+    return () => clearInterval(interval);
+  });
+
+  function onRankClick(rank: number) {
+    let buffer = nowRanks.slice();
+    if (nowRanks.includes(rank)) {
+      setNowRanks(buffer.filter(val => val !== rank));
+      return;
     }
-  }, [nowRanks, savedRanks, dispatch, updateRanks]);
 
-  useEffect(() => {
-    let animTimeout = setTimeout(() => {
-      setAnimload(true);
-    }, 1300);
+    buffer.push(rank);
+    const splittedRanks = {
+      game: gameRanks.map(val => val.id).filter(val => buffer.includes(val)),
+      // not store dnd here
+      privacy: privacyRanks.map(val => val.id).filter(
+        val => buffer.includes(val) && val != DND_RANK_ID
+      )
+    };
 
-    return () => {
-      if(remainedRanks.current)
-        updateRanks(remainedRanks.current);
-
-      clearTimeout(animTimeout);
+    if (buffer.includes(DND_RANK_ID) && splittedRanks.privacy.includes(rank)) {
+      addAlert({
+        text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس ابتدا رنک Do Not Disturb رو از خودت بگیر`,
+        type: "danger"
+      }, 10);
+      return;
     }
-  }, [updateRanks]);
 
-  function onRankClick(rankId: number){
-    let buffer: number[] = nowRanks.slice();
-    
-    if(nowRanks.includes(rankId)){
-      buffer = buffer.filter((val) => {
-        return val !== rankId;
-      });
-    }else{
-      buffer.push(rankId);
-      
-      let privaciesRanksId: number[] = [];
-      let hasDnd = false;
+    if (splittedRanks.privacy.length == 3) {
+      buffer.push(DND_RANK_ID);
+      addAlert({
+        text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس بجای سه تا رنک بهت این رنک طلایی رو میدم، قابل نداره`,
+        type: "info"
+      }, 15);
+    }
 
-      for(let rank of privacyRanks){
-        if(buffer.includes(rank.id)){
-          if(rank.id === doNotDisturbId){
-            hasDnd = true;
-            continue;
-          }
+    // remove other privacy ranks if had dnd
+    if (buffer.includes(DND_RANK_ID))
+      buffer = buffer.filter(val => !splittedRanks.privacy.includes(val));
 
-          privaciesRanksId.push(rank.id);
-        }
-      }
-
-      if(privaciesRanksId.length === 3){
-        buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
-        buffer.push(doNotDisturbId);
-
-        addAlert({
-          text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس بجای سه تا رنک بهت این رنک طلایی رو میدم، قابل نداره`,
-          type: "info"
-        }, 15);
-      } else if(hasDnd && privaciesRanksId.includes(rankId)) {
-        addAlert({
-          text: `رنک Do Not Disturb همه رنک های حریم شخصی رو در بر داره پس ابتدا رنک Do Not Disturb رو از خودت بگیر`,
-          type: "danger"
-        }, 10);
-        return;
-      }
-
-      if(rankId === doNotDisturbId && privaciesRanksId.length !== 0){
-        buffer = buffer.filter((val) => !(privaciesRanksId.includes(val)));
-      }
-
-
-      let gameRankCount = 0;
-      for(let rank of gameRanks){
-        if(buffer.includes(rank.id))
-          gameRankCount++;
-      }
-
-      if(gameRankCount > maxGameRanks){
-        addAlert({
-          text: `نمی تونی بیشتر از ${maxGameRanks} رنک بازی به خودت بدی`,
-          type: "danger",
-        }, 5);
-        return;
-      }
+    if (splittedRanks.game.length > MAX_GAME_RANKS) {
+      addAlert({
+        text: `نمی تونی بیشتر از ${MAX_GAME_RANKS} رنک بازی به خودت بدی`,
+        type: "danger",
+      }, 5);
+      return;
     }
 
     setNowRanks(buffer);
-    remainedRanks.current = buffer;    
   }
 
   return (
     <div id="rank">
       {sections.map((val, index) =>
-        <div key={index} id={val.htmlId} className={`inner-box ${extraClass} ${index>0? "animate__delay-" + index + "s": ""}`}>
+        <div key={index} id={"rank-" + val.id} className={`inner-box animate__animated animate__zoomIn ${index>0? "animate__delay-" + index + "s": ""}`}>
           <div className="title">{val.title}</div>
           <div className="rank-buttons">
             {val.ranks.map((val) =>
@@ -190,7 +141,5 @@ function Rank(): JSX.Element{
         </div>
       )}
     </div>
-  )
+  );
 }
-
-export default Rank;

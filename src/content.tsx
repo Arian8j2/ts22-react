@@ -5,12 +5,12 @@ import { useMediaQuery } from 'react-responsive';
 
 import { navInfo } from './sidebar';
 
-function Content(){
+export default function Content() {
   const isMobile = useMediaQuery({query: "(max-width: 600px)"});
-  let defaultRoute: string = "";
 
-  for(let info of navInfo){
-    if(info.isDefault){
+  let defaultRoute = "";
+  for (let info of navInfo) {
+    if (info.isDefault) {
       defaultRoute = info.url;
       break;
     }
@@ -38,5 +38,3 @@ function Content(){
     </BrowserRouter>
   );
 }
-
-export default Content;

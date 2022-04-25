@@ -159,6 +159,12 @@ html, body, #root{
     color: $foreground;
     box-shadow: 0px 7px 10px 1px rgba(0, 0, 0, .2);
     transition: box-shadow .5s, transform .5s;
+    border: 1px solid $background;
+
+    &:hover {
+        transition: box-shadow .5s;
+        box-shadow: 0px 10px 10px 1px rgba(0, 0, 0, .2);
+    }
 
     .title{
         color: $title;
@@ -173,18 +179,6 @@ html, body, #root{
     font-family: IranYekan;
     font-size: .97em;
     text-align: center;
-}
-
-@media (hover: hover){
-    .inner-hover {
-        will-change: transform;
-    }
-    
-    .inner-hover:hover {
-        transition: box-shadow .5s, transform .5s;
-        transform: translateY(-10px);
-        box-shadow: 0px 12px 10px 1px rgba(0, 0, 0, .2);
-    }
 }
 
 #login-box{
