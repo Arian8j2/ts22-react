@@ -123,9 +123,9 @@ export default function RankStatus() {
         <div>
           <div className="rankup-info">پوینت های شما</div>
           <div className="rankup-val" style={{direction: "rtl"}}>
-            {points}
+            {points.toLocaleString()}
             <span id="rankup-val-parser"> / </span>
-            {neededPoints == 0 ? "بی نهایت" : neededPoints}
+            {neededPoints == 0 ? "بی نهایت" : neededPoints.toLocaleString()}
           </div>
         </div>
         <div>

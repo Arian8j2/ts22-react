@@ -12,15 +12,14 @@ import 'simplebar/dist/simplebar.min.css';
 
 function Donate(): JSX.Element{
   const donators = useSelector((state: RootReducer) => state.clientInfo.donators);
-  const [donationAmount, setDonationAmount] = useState("");
+  const [amount, setAmount] = useState<number>();
 
   async function onDonate() {
-    if (!donationAmount.length) {
+    if (!amount) {
       addAlert({ text: "اول مبلغ حمایت رو وارد کن", type: "info" }, 5);
       return;
     }
 
-    let amount: number = parseInt(donationAmount);
     if (amount < 10_000) {
       addAlert({
         text: "حداقل مبلغ حمایت 10,000 تومان هست، میشه پوله یه آبنبات 🍭",
@@ -40,7 +39,7 @@ function Donate(): JSX.Element{
     try {
       var response = await fetchWrapper("submit_donation", {
         method: "POST",
-        data: { "amount": donationAmount }
+        data: { "amount": amount }
       });
     } catch (err: any) {
       addAlert({
@@ -75,10 +74,11 @@ function Donate(): JSX.Element{
         <div id="input-container">
           <input onInput={
             (ev: ChangeEvent<HTMLInputElement>) => {
-              let newAmount = (ev.target.validity.valid) ? ev.target.value: donationAmount;
-              setDonationAmount(newAmount);
+              let newAmount = ev.target.value.replaceAll(",", "")
+              if (newAmount.match(/[0-9]*/))
+                setAmount(parseInt(newAmount));
             } 
-          } pattern="[0-9]*" placeholder="مبلغ به تومان" type="text" value={donationAmount} />
+          } placeholder="مبلغ به تومان" type="text" value={amount ? amount.toLocaleString() : ""} />
           <button style={{marginTop: ".25em"}} onClick={onDonate}>ثبت</button>
         </div>
       </div>
@@ -88,7 +88,7 @@ function Donate(): JSX.Element{
           {donators.map((val, index) => 
             <div key={index} className="donator-layout">
               <div>{val.name}</div>
-              <div>{val.amount}</div>
+              <div>{val.amount.toLocaleString()}</div>
             </div>
           )}
         </SimpleBar>
