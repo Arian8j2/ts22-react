@@ -10,35 +10,31 @@ interface Rank {
 };
 
 const gameRanks: Rank[] = [
-  { id: 151, name: "Dota 2"           , color: "red"    },
-  { id: 152, name: "Call Of Duty"     , color: "green"  },
-  { id: 176, name: "Fortnite"         , color: "blue"   },
-  { id: 155, name: "DDNet"            , color: "yellow" },
-  { id: 153, name: "Minecraft"        , color: "green"  },
-  { id: 156, name: "World Of Warcraft", color: "yellow" },
-  { id: 158, name: "Rust"             , color: "red"    },
-  { id: 159, name: "Zula"             , color: "grey"   },
-  { id: 160, name: "League Of Legends", color: "blue"   },
-  { id: 173, name: "PUBG"             , color: "yellow" },
-  { id: 154, name: "Gta V"            , color: "green"  },
-  { id: 195, name: "Garry's Mod"      , color: "blue"   },
-  { id: 157, name: "Counter Strike"   , color: "yellow" },
-  { id: 193, name: "Apex Legends"     , color: "red"    },
-  { id: 194, name: "Rocket League"    , color: "blue"   },
-  { id: 196, name: "Rainbow Six Siege", color: "grey"   },
-  { id: 214, name: "Hyperscape"       , color: "yellow" },
-  { id: 213, name: "Valorant"         , color: "red"    }
+  { id: 47, name: "Dota 2"           , color: "red"    },
+  { id: 50, name: "Call Of Duty"     , color: "green"  },
+  { id: 46, name: "Fortnite"         , color: "blue"   },
+  { id: 41, name: "DDNet"            , color: "yellow" },
+  { id: 49, name: "Minecraft"        , color: "green"  },
+  { id: 51, name: "Rust"             , color: "red"    },
+  { id: 52, name: "League Of Legends", color: "blue"   },
+  { id: 54, name: "PUBG"             , color: "yellow" },
+  { id: 44, name: "Gta V"            , color: "green"  },
+  { id: 45, name: "Counter Strike"   , color: "yellow" },
+  { id: 42, name: "Apex Legends"     , color: "red"    },
+  { id: 48, name: "Rocket League"    , color: "blue"   },
+  { id: 55, name: "Rainbow Six Siege", color: "grey"   },
+  { id: 43, name: "Valorant"         , color: "red"    }
 ];
 
 const privacyRanks: Rank[] = [
-  { id: 142, name: "Anti Poke"     , color: "yellow" },
-  { id: 141, name: "Anti Pm"       , color: "yellow" },
-  { id: 215, name: "Do Not Disturb", color: "red"    },
-  { id: 200, name: "Anti Move"     , color: "yellow" },
+  { id: 35, name: "Anti Poke"     , color: "yellow" },
+  { id: 36, name: "Anti Pm"       , color: "yellow" },
+  { id: 37, name: "Do Not Disturb", color: "red"    },
+  { id: 34, name: "Anti Move"     , color: "yellow" },
 ];
 
 const MAX_GAME_RANKS = 3;
-const DND_RANK_ID = 215;
+const DND_RANK_ID = 37;
 
 const sections = [
   { id: "game", title: "بازی", ranks: gameRanks },

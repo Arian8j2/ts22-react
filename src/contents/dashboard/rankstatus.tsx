@@ -11,23 +11,16 @@ interface Rank {
 };
 
 const ranks: Rank[] = [
-  { id: 124, name: "Member",       color: "#ffffff", upgradable: true },
-  { id: 185, name: "Elite",        color: "#f29929", upgradable: true },
-  { id: 171, name: "Vip",          color: "#0090d9", upgradable: true }, 
-  { id: 131, name: "Vip+",         color: "#2dc7db", upgradable: true },
-  { id: 172, name: "Vip++",        color: "#0170db", upgradable: true },
-  { id: 183, name: "Assistant",    color: "#1d2027", upgradable: true },
-  { id: 186, name: "Helper",       color: "#930af5", upgradable: true },
-  { id: 184, name: "Consultant",   color: "#f500ed" },
-  { id: 130, name: "Supporter",    color: "#00ba1f" },
-  { id: 129, name: "Moderator",    color: "#00fa2a" },
-  { id: 181, name: "Manager",      color: "#007a14" },
-  { id: 180, name: "Developer",    color: "#b38a2b" },
-  { id: 179, name: "Sub Admin",    color: "#fac219" },
-  { id: 178, name: "Admin",        color: "#fa7325" },
-  { id: 127, name: "Head Admin",   color: "#fa5d0b" },
-  { id: 182, name: "Server Admin", color: "#fa1f0b" },
-  { id: 123, name: "Owner",        color: "#800f05" }
+  { id:  7, name: "Member",       color: "#ffffff", upgradable: true },
+  { id: 20, name: "Vip",          color: "#0090d9", upgradable: true }, 
+  { id: 21, name: "Vip+",         color: "#2dc7db", upgradable: true },
+  { id: 22, name: "Vip++",        color: "#0170db", upgradable: true },
+  { id: 23, name: "Mvp",    color: "#1d2027", upgradable: true },
+  { id: 24, name: "Mvp+",       color: "#930af5", upgradable: true },
+  { id: 25, name: "Mvp++",   color: "#f500ed" },
+  { id: 26, name: "Prime",    color: "#00ba1f" },
+  { id: 27, name: "Moderator",    color: "#00fa2a" },
+  { id:  9, name: "Owner",        color: "#800f05" }
 ];
 
 export default function RankStatus() {
