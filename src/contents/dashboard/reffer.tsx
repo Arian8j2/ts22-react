@@ -66,11 +66,11 @@ export default function Reffer() {
 
   return (
     <div id="refid" className="inner-box animate__animated animate__zoomIn animate__delay-2s">
-      <div className="title">کد دعوت شما</div>
-      <div id="refid-info">
-      اگر کسی سرور رو به شما معرفی کرده می تونید کد دعوت اون رو وارد کنید تا بهش پوینت برسه همچنین می تونید کد خودتون هم به بقیه بدید
+      <div className="title">کد دعوت</div>
+      <div id="refid-info" style={{flexGrow: 1}}>
+      اگر کسی سرور رو بهت معرفی کرده می تونی کد دعوت اون رو وارد کنی، می تونی کد خودتم به بقیه بدی
       </div>
-      <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div style={{display: "flex", flexDirection: "column"}}>
         <div id="refid-cldbid">{cldbid}</div>
         <input onInput={(ev: ChangeEvent<HTMLInputElement>) => {
           let newRefid = ev.target.validity.valid ? ev.target.value : refidInput;
@@ -78,8 +78,7 @@ export default function Reffer() {
         }}
           pattern="[0-9]*" id="refid-refid" type="text" readOnly={hasRefid}
           value={hasRefid ? refid: refidInput} placeholder="کد دعوت را وارد کنید" />
-        <div style={{flexGrow: 1, visibility: "hidden"}} >a</div>
-        <button disabled={hasRefid} onClick={onSubmitRefid}>ثبت کد دعوت</button>
+        <button style={{marginTop: "20px"}} disabled={hasRefid} onClick={onSubmitRefid}>ثبت کد دعوت</button>
       </div>
     </div>
   );

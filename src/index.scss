@@ -204,8 +204,8 @@ html, body, #root{
 
 #content{
     min-width: 775px;
-    width: 40vw;
-    height: 450px;
+    width: 42vw;
+    height: 460px;
     padding: 0;
     display: grid;
     grid-template-columns: [content] 75% [sidebar] 25% [end];
@@ -263,6 +263,8 @@ html, body, #root{
     max-width: 100%;
     overflow: hidden;
     padding: 20px;
+    box-sizing: border-box;
+    height: 100%;
 
     #rank{
         height: 100%;
@@ -399,7 +401,7 @@ html, body, #root{
     #dashboard{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 25% 1fr; //112.5px 279px
+        grid-template-rows: 1fr 3fr;
         gap: 20px;
         height: 100%;
 
@@ -461,6 +463,8 @@ html, body, #root{
         }
 
         #refid{
+            display: flex;
+            flex-direction: column;
             grid-column: 2 / 3;
             grid-row: 2 / 3;
 
