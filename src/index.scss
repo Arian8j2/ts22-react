@@ -268,12 +268,8 @@ html, body, #root{
         height: 100%;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 70% 2fr 1fr;
+        grid-template-rows: 3fr 1fr;
         gap: 20px;
-
-        #rank-game{
-            grid-row: 1 / 2;
-        }
 
         .rank-buttons{
             display: flex;
@@ -285,10 +281,6 @@ html, body, #root{
             button{
                 margin: 10px 5px 0 0;
             }
-        }
-
-        #rank-privacy{
-            grid-row: 2 / 3;
         }
     }
 
