@@ -125,4 +125,24 @@ function arrayIsEqual(x: number[], y: number[]): boolean {
   return JSON.stringify(x) == JSON.stringify(y);
 }
 
-export { fetchWrapper, addAlert, clamp, formatNetUsage, formatConnTime, arrayIsEqual };
+// https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+var getTextWidthCanvas : HTMLCanvasElement | null = null;
+function truncateTextBasedOnWidth(text: string, font: string, max_width: number): string {
+  const canvas: HTMLCanvasElement = getTextWidthCanvas || (getTextWidthCanvas = document.createElement("canvas"));
+  const context = canvas.getContext("2d");
+  if (!context)
+    return text;
+
+  context.font = font;
+  let textArray = [...text];
+  for (let i = 1; i < textArray.length; i++) {
+    let textBuffer = textArray.slice(0, i).join("");
+    let metrics = context.measureText(textBuffer);
+    if (metrics.width > max_width)
+      return textBuffer + "...";
+  }
+
+  return text;
+}
+
+export { fetchWrapper, addAlert, clamp, formatNetUsage, formatConnTime, arrayIsEqual, truncateTextBasedOnWidth };

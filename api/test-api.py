@@ -12,7 +12,7 @@ CORS(app, supports_credentials=True)
 
 @app.route("/login", methods=["GET"])
 def Login():
-    resp = flask.make_response('{"found": true, "ranks": [186, 155, 140], "cldbid": 19, "points": 4800, "refid": "", "net-usage": 3482300, "conn-time": 4174, "needed-points": 4500, "donators": [{"name": "javad.r", "amount": 5000}, {"name": "DJ JOON", "amount": 3000}, {"name": "Acid", "amount": 10000}, {"name": "Dr.YakuZa", "amount": 10000}, {"name": "atila126", "amount": 5000}, {"name": "alirezawinner", "amount": 5000}, {"name": "green tea", "amount": 7000}, {"name": "atila126", "amount": 7000}, {"name": "alitoofan", "amount": 5000}, {"name": "|-_-|cryMORE|-_-|", "amount": 7000}, {"name": "mahdisalam", "amount": 7000}, {"name": "amir.baz", "amount": 7000}], "alert": null}')
+    resp = flask.make_response('{"found": true, "ranks": [186, 155, 140], "cldbid": 19, "points": 4800, "refid": "", "net-usage": 3482300, "conn-time": 4174, "needed-points": 4500, "donators": [{"name": "آشپز جهنم دره", "amount": 5000}, {"name": "DJ JOON", "amount": 3000}, {"name": "استاد باقالی پلو با گردن", "amount": 10000}, {"name": "Dr.YakuZa", "amount": 10000}, {"name": "atila126", "amount": 5000}, {"name": "alirezawinner", "amount": 5000}, {"name": "green tea", "amount": 7000}, {"name": "atila126", "amount": 7000}, {"name": "alitoofan", "amount": 5000}, {"name": "|-_-|cryMORE|-_-|", "amount": 7000}, {"name": "mahdisalam", "amount": 7000}, {"name": "amir.baz", "amount": 7000}], "alert": null}')
     resp.set_cookie("csrftoken", "just-test")
     return resp
 
