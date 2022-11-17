@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { clientInfo, type AlertType, type Donator } from './redux/reducers';
-import { fetchWrapper, addAlert } from './utils';
+import { fetchWrapper, addAlert, truncateTextBasedOnWidth } from './utils';
 
 export default function Login() {
   /*   
@@ -50,19 +50,12 @@ export default function Login() {
         return;
       }
 
-      const MAX_NAME_LENGTH = 15;
       let donators: Donator[] = [];
 
+      const MAX_NAME_WIDTH = 90;
       for (let donator of data["donators"] as Donator[]) {
-        /*
-          some utf characters counted twice 
-          https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length#unicode
-        */
-        let nameArray: string[] = [...donator.name]; 
-
         donators.push({
-          name: nameArray.length > MAX_NAME_LENGTH ? 
-            nameArray.slice(0, MAX_NAME_LENGTH - 3).join("") + "..." : donator.name,
+          name: truncateTextBasedOnWidth(donator.name, "normal 16px IranYekan", MAX_NAME_WIDTH),
           amount: donator.amount
         });
       }
