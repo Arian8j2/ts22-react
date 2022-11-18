@@ -85,19 +85,19 @@ function formatNetUsage(kilobytes: number): string {
 
 function formatConnTime(minute: number): string {
   let metrics = [
-    { value:  1, name: "دقیقه" },
+    { value: 24, name: "روز"   },
     { value: 60, name: "ساعت" },
-    { value: 24, name: "روز"   }
+    { value:  1, name: "دقیقه" }
   ];
 
   if (minute == 0)
     return "صفر";
 
   let texts: string[] = [];
-  for (let metric of metrics.slice().reverse()) {
-    let [divide, multiply] = metrics.reduce(
+  for (let [index, metric] of metrics.slice().entries()) {
+    let [divide, multiply] = metrics.slice(index, metrics.length).reduce(
       (prev, next) => [prev[0] / next.value, prev[1] * next.value],
-      [metrics[0].value, metrics[0].value]
+      [1, 1],
     );
 
     let remain = Math.floor(minute * divide);
