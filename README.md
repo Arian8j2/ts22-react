@@ -1,17 +1,6 @@
-# Ts22.ir front end
-SPG Teamspeak server website  
-Copyright (C) 2021 Arian Rezazadeh
-[![Image of website](https://beeimg.com/images/i66636727661.png)](https://beeimg.com/view/i66636727661)
-
-## How to run
-First install requirements using yarn:
-```
-yarn install
-```
-then start it:
-```
-yarn start
-```
+# web.ts22.ir front end
+OmeGa teamspeak server(**ts22.ir**) website  
+![Screenshot 2022-12-21 at 13-10-22 سرور تیم اسپیک اس پی جی](https://user-images.githubusercontent.com/56799194/208873877-4c8b1d3f-6400-4a86-b22a-1911c7c5b453.png)
 
 ## Testing rest API
 There is python script under 'api' folder than send static api result, You can install script requirements using:
